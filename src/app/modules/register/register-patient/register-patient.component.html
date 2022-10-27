@@ -1,0 +1,135 @@
+<div class="container"> 
+    <div class="p-2 mb-2 bg-light border rounded-3" style="width: 100%">
+      <div class="container-fluid py-1">
+        <div>
+            <br>
+            <h1 style="text-align: center;">REGISTRO PACIENTE</h1>
+            <hr>
+            <div class="row align-items-md-stretch">
+
+                <div class="col-md-6">
+                    <form class="form was-validated" [formGroup]="form">
+                        <div class="row align-items-md-stretch">
+                            <div class="form-group col-md-6">
+                                <label for="name" class="form-label">NOMBRE</label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name" required="" formControlName="name">
+                                <div class="invalid-feedback">
+                                    Ingrese su nombre.
+                                </div>
+                            </div>
+                            
+                            <div class="form-group col-md-6">
+                                <label for="lastName" class="form-label">APELLIDO</label>
+                                <input type="text" class="form-control" id="lastName" aria-describedby="lastName" required="" formControlName="lastName">
+                                <div class="invalid-feedback">
+                                    Ingrese su apellido.
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row align-items-md-stretch">
+                            <div class="form-group col-md-9">
+                                <label for="idNumber" class="form-label">DNI</label>
+                                <input type="number" class="form-control" id="idNumber" aria-describedby="idNumber" required="" min="00000001" max="99999999" formControlName="idNumber">
+                                <div class="invalid-feedback">
+                                    Ingrese su DNI.
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="age" class="form-label">EDAD</label>
+                                <input type="number" class="form-control" id="age" aria-describedby="age" required="" min="1" max="120" formControlName="age">
+                                <div class="invalid-feedback">
+                                    Ingrese su edad.
+                                </div>
+                            </div>                 
+                        </div>
+        
+                        <br>
+
+                        <div class="form-group col-md-12">
+                            <label for="healthInsurance" class="form-label">OBRA SOCIAL</label>
+                            <input type="text" class="form-control" id="healthInsurance" aria-describedby="healthInsurance" required="" formControlName="healthInsurance">
+                            <div class="invalid-feedback">
+                                Ingrese su Obra Social.
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group col-md-8">
+                            <label for="email" class="form-label">CORREO ELECTRONICO</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="email" required="" formControlName="email">
+                            <div class="invalid-feedback">
+                                Ingrese su correo electronico.
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group col-md-8">
+                            <label for="password" class="form-label">CONTRASEÑA</label>
+                            <input type="password" class="form-control" id="password" aria-describedby="password" required="" formControlName="password">
+                            <div class="invalid-feedback">
+                                Ingrese su contraseña.
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group col-md-8">
+                            <label for="password2" class="form-label">CONFIRME SU CONTRASEÑA</label>
+                            <input type="password" class="form-control" id="password2" aria-describedby="password2" required="" formControlName="password2">
+                            <div class="invalid-feedback">
+                                Confirme su contraseña.
+                            </div>
+                        </div>
+                                              
+                        <hr> 
+                        
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Imagen de perfil</label>
+                            <input class="form-control" 
+                                   type="file"  
+                                   accept=".png,.jpg" 
+                                   id="formFile"required="" 
+                                   (change)="onFileSelected($event, true)">
+                            <div class="invalid-feedback">
+                                Debe seleccionar una foto de perfil.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="formFile2" class="form-label">Imagen de perfil 2</label>
+                            <input class="form-control" 
+                                   type="file" 
+                                   accept=".png,.jpg" 
+                                   id="formFile2" 
+                                   required="" 
+                                   (change)="onFileSelected($event, false)">
+                            <div class="invalid-feedback">
+                                Debe seleccionar una foto de perfil.
+                            </div>
+                        </div>
+
+                        <hr> 
+
+                        <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" style="width: 80%;" (click)="onSubmit()">ENVIAR</button>
+                        <button type="submit" class="btn btn-primary" style="width: 80%;" (click)="return()">VOLVER</button>
+                        </div>
+                    </form>
+                </div>
+
+                
+                <div class="col-md-6" style="text-align: center;">
+                    <img src='/assets/logos/patient.png' class="img-responsive" style="width: 80%;">
+                </div>
+            </div>
+ 
+        </div>
+      </div>
+    </div>     
+</div>

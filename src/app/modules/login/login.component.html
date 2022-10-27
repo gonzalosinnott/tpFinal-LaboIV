@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="login-container">
+    <div class="text-container">
+      <img src='/assets/common/logo.png' class="img-responsive" style="width: 100%;">
+      <h1>¡Hola!</h1>
+      <p>
+        Si aun no tienes cuenta, puedes registrarte haciendo click en el boton de abajo.
+      </p>
+      <button style="width: 100%; color: white" routerLink="/register">Registrarse</button>
+    </div>
+    <div class="form-container">
+      <div class="row align-items-md-stretch text-center">
+        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <mat-form-field class="form-control">
+            <mat-label>Correo electronico</mat-label>
+            <input matInput formControlName="email" type="text" autocomplete="off" required />
+            <mat-error *ngIf="email?.hasError('required')">
+              El correo electronico es obligatorio
+            </mat-error>
+            <mat-error *ngIf="email?.hasError('email')">
+              El correo electrónico no es válido. Por favor introduzca una dirección de correo electrónico válida.
+            </mat-error>
+          </mat-form-field>
+          <br>
+          <br>
+          <mat-form-field class="form-control">
+            <mat-label>Contraseña</mat-label>
+            <input matInput formControlName="password" type="password" autocomplete="off" required />
+            <mat-error *ngIf="password?.hasError('required')">
+              La contraseña es obligatoria.
+            </mat-error>
+          </mat-form-field>
+          <br>
+          <br>
+          <button [disabled]="form.invalid" style="width:100%" mat-raised-button type="submit">
+            Ingresar
+          </button>
+          <br>
+          <br>
+        </form>
+        <div class="row align-items-md-stretch">
+          <div class="brightness col text-center">
+            <img src='/assets/quick-access/quick-patient2.png' 
+                 class="img-responsive" 
+                 style="width: 100%;"
+                 (click)="fillFormPatient1()">
+          </div>
+          <div class="brightness col text-center">
+            <img src='/assets/quick-access/quick-patient1.png' 
+                 class="img-responsive" 
+                 style="width: 100%;"
+                 (click)="fillFormPatient2()">
+          </div>
+          <div class="brightness col text-center">
+            <img src='/assets/quick-access/quick-patient3.png' 
+                 class="img-responsive" 
+                 style="width: 100%;"
+                 (click)="fillFormPatient3()">
+          </div>
+          <div class="brightness col text-center">
+            <img src='/assets/quick-access/quick-doctor1.png' 
+                 class="img-responsive" 
+                 style="width: 100%;"
+                 (click)="fillFormDoctor1()">
+          </div>
+          <div class="brightness col text-center">
+            <img src='/assets/quick-access/quick-doctor2.png' 
+                 class="img-responsive" 
+                 style="width: 100%;"
+                 (click)="fillFormDoctor2()">
+          </div>
+          <div class="brightness col text-center">
+            <img src='/assets/quick-access/quick-admin.png' 
+                 class="img-responsive" 
+                 style="width: 100%;"
+                 (click)="fillFormAdmin()">
+          </div>       
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer id="sticky-footer" class="fixed-bottom flex-shrink-0 py-2 bg-dark text-white-50">
+  <div class="container d-flex justify-content-center align-items-center">
+    <small class="me-2">2022 &copy; Gonzalo Sinnott Segura</small>
+  </div>
+</footer>

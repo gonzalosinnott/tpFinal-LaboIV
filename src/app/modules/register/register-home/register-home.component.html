@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="login-container">
+        <div class="form-container">
+            <div class="row align-items-md-stretch text-center">
+                <h1>REGISTRO</h1>
+                <hr>
+                <div class="col-6 text-center brightness">  
+
+                    <img [src]="imgDtr"
+                         (mouseover)="imgDtr = '/assets/logos/doctor2.png'"
+                         (mouseout)="imgDtr = '/assets/logos/doctor.png'"
+                         class="img-responsive" 
+                         style="width: 80%;"
+                         routerLink="./doctor">                 
+                </div>
+
+                <div class="col-6 text-center brightness">
+                    <img [src]="imgPct"
+                         (mouseover)="imgPct = '/assets/logos/patient2.png'"
+                         (mouseout)="imgPct = '/assets/logos/patient.png'"
+                         class="img-responsive" 
+                         style="width: 80%;"
+                         routerLink="./patient">  
+
+                </div>
+            </div>
+        </div>
+        <div class="text-container">
+            <img src='/assets/common/register.png' class="img-responsive" style="width: 100%;">
+
+            <h1>¡Oye!</h1>
+            <p>
+                ¿Ya tienes una cuenta ? Haz click en el botón de abajo para iniciar sesión.
+            </p>
+            <button type="button" class="btn btn-outline-light" routerLink="/">Iniciar sesión</button>
+        </div>
+    </div>
+</div>
+
+<footer id="sticky-footer" class="fixed-bottom flex-shrink-0 py-2 bg-dark text-white-50">
+    <div class="container d-flex justify-content-center align-items-center">
+        <small class="me-2">2022 &copy; Gonzalo Sinnott Segura</small>        
+    </div>
+</footer>
