@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TwitterAuthProvider } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,19 +17,15 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
   usuario = new User();
-  userData: any;
-  role: any;
 
   constructor(private auth: AuthService,
-              private firestoreService: FirestoreService,
-              private router: Router, 
               private readonly fb: FormBuilder, 
               private spinnerService: SpinnerService,
               private toastr: ToastrService) {                
-                this.form = new FormGroup({
-                  email: new FormControl(),
-                  password: new FormControl()
-                });
+    this.form = new FormGroup({
+      email: new FormControl(),
+      password: new FormControl()
+    });
   }
 
   getValue(value: string): AbstractControl {
@@ -36,49 +33,16 @@ export class LoginComponent implements OnInit {
   }
 
   ingresar(user: User) {
-    this.spinnerService.show();
-    this.auth.login(user.email, user.password).then(res => {
-      var data = JSON.parse(localStorage.getItem('userData')); 
-      this.getUserRole(data[0].uid);     
-    }) 
+    this.spinnerService.show();   
+    this.auth.login(user.email, user.password).then(res => { 
+    })
     .catch(e => { this.toastr.error(e.message) })
-    .finally(() => { this.spinnerService.hide(); });
-  }
-
-  getUserRole(uid:any) {
-    this.spinnerService.show();
-    new Promise((resolve, reject) => {
-      this.firestoreService.getUserRole(uid).then((data) => {
-        resolve(data);
-      });
-    })
-    .then((data) => {
-      this.role = data;
-      console.log(this.role);
-      this.redirect();
-    })
-    .catch((error) => {
-      this.toastr.error('Las contraseñas no coinciden');
-    }).finally(() => {
-      this.spinnerService.hide();
+    .finally(() => { 
     });
   }
-
-  redirect() {
-    if (this.role === 'Patient') {
-      this.router.navigate(['patient-dashboard']);
-    }
-    
-    if (this.role === 'Specialist') {
-      this.router.navigate(['doctor-dashboard']);
-    }
-   
-    if (this.role === 'admin-dashboard') {
-      this.router.navigate(['verification']);
-    }
-  }
-
+  
   ngOnInit(): void {
+    localStorage.clear();
     this.form = this.fb.group({
       email: ['', Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$")],
       password: ['', [Validators.minLength(6), Validators.maxLength(20)]]

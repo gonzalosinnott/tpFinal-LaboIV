@@ -17,14 +17,8 @@ export class PatientHomeComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.authService.getAuth().subscribe(user => {
-      if (user) {
-        this.user = user;
-        this.userData = JSON.parse(localStorage.getItem('userData'));
-        this.displayName = this.userData[0].displayName;
-      }
-    });
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+    this.displayName = this.userData[0].displayName;
+    this.user = this.userData[0];
   }
-
-
 }

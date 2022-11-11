@@ -8,6 +8,7 @@ import { User } from '../models/user';
 import { StorageService } from './storage.service';
 import { FirestoreService } from './firestore.service';
 import { ToastrService } from 'ngx-toastr';
+import { SpinnerService } from './spinner.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class AuthService {
               private readonly auth: Auth,
               private firestoreService: FirestoreService,
               private storage: StorageService,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private spinnerService: SpinnerService) { }
 
   async sendEmail() {
     this.userCredential = this.auth.currentUser;
@@ -35,7 +37,8 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    return await signInWithEmailAndPassword(this.auth, email, password).then(res => {
+    return await signInWithEmailAndPassword(this.auth, email, password)
+    .then(res => {
       if (res.user.emailVerified) {
         var uid = this.auth.currentUser.uid
         this.firestoreService.getUserData(uid).subscribe((user: any) => {
@@ -45,7 +48,11 @@ export class AuthService {
         this.userCredential = res;
         this.router.navigate(['verification'])
       }
-    }).catch(error => {
+    })
+    .then (() => {
+      this.getUserRole(this.auth.currentUser.uid);
+    })
+    .catch(error => {
       switch (error.code) {
         case 'auth/invalid-email':
         case 'auth/user-not-found':
@@ -56,6 +63,35 @@ export class AuthService {
           throw new Error(error.message);
       }
     });
+  }
+
+  getUserRole(uid:any) {
+    new Promise((resolve, reject) => {
+      this.firestoreService.getUserRole(uid).then((data) => {
+        resolve(data);
+      });
+    })
+    .then((data) => {
+      this.redirect(data);
+    })
+    .catch((e) => {
+      this.toastr.error(e.message);
+    })
+  }
+
+  redirect(role: any) {
+    if (role === 'Patient') {
+      this.router.navigate(['patient']);
+    }
+    
+    if (role === 'Doctor') {
+      this.router.navigate(['doctor']);
+    }
+   
+    if (role === 'Admin') {
+      this.router.navigate(['admin']);
+    }
+    this.spinnerService.hide(); 
   }
 
   async loginWithGoogle(email: string, password: string) {
@@ -100,6 +136,7 @@ export class AuthService {
   }
 
   async logout() {
+    localStorage.clear();
     return await this.afauth.signOut().then(res => this.router.navigate(['login'])).catch(error => {
       throw new Error('Error en desloguearse');
     });

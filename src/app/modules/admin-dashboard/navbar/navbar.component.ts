@@ -16,11 +16,10 @@ export class NavbarComponent implements OnInit {
   }
   
   logout() {
-    localStorage.removeItem('userData');
     this.authService
-      .logout()
-      .then(() => this.router.navigate(['/']))
-      .catch((e) => console.log(e.message));
+        .logout()
+        .then(() => this.router.navigate(['/']))
+        .catch((e) => console.log(e.message));
   }
 
 }
