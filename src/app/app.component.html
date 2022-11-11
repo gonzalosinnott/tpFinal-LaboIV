@@ -1,14 +1,4 @@
-<body>
-<div class="box"  *ngIf="loader; else elseBlock">
-    <div class="container">
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
-    </div>
-  </div>
-
-  <ng-template #elseBlock><router-outlet></router-outlet></ng-template>
-</body>
+<app-spinner></app-spinner>
+<router-outlet></router-outlet>
 
   

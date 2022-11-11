@@ -1,135 +1,136 @@
-<div class="container"> 
+<div class="container">
     <div class="p-2 mb-2 bg-light border rounded-3" style="width: 100%">
-      <div class="container-fluid py-1">
-        <div>
-            <br>
-            <h1 style="text-align: center;">REGISTRO PACIENTE</h1>
-            <hr>
-            <div class="row align-items-md-stretch">
+        <div class="container-fluid py-1">
+            <div>
+                <br>
+                <h1 style="text-align: center;">REGISTRO PACIENTE</h1>
+                <hr>
+                <div class="row align-items-md-stretch">
 
-                <div class="col-md-6">
-                    <form class="form was-validated" [formGroup]="form">
-                        <div class="row align-items-md-stretch">
-                            <div class="form-group col-md-6">
-                                <label for="name" class="form-label">NOMBRE</label>
-                                <input type="text" class="form-control" id="name" aria-describedby="name" required="" formControlName="name">
-                                <div class="invalid-feedback">
-                                    Ingrese su nombre.
+                    <div class="col-md-6">
+                        <form [formGroup]="form">
+
+                            <div class="row align-items-md-stretch">
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label style="float: left">Nombre</label>
+                                        <input class="form-control" formControlName="name" type="name"
+                                            placeholder="Ingrese su nombre" [(ngModel)]="patient.name" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('name')?.invalid && (getValue('name').touched || getValue('name').dirty)">
+                                            Ingrese un nombre válido</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+
+                                    <div class="form-group">
+                                        <label style="float: left">Apellido</label>
+                                        <input class="form-control" formControlName="lastName" type="apellido"
+                                            placeholder="Ingrese su apellido" [(ngModel)]="patient.lastName" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('lastName')?.invalid && (getValue('lastName').touched || getValue('lastName').dirty)">
+                                            Ingrese un apellido válido</div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="form-group col-md-6">
-                                <label for="lastName" class="form-label">APELLIDO</label>
-                                <input type="text" class="form-control" id="lastName" aria-describedby="lastName" required="" formControlName="lastName">
-                                <div class="invalid-feedback">
-                                    Ingrese su apellido.
+                            <br>
+                            <div class="row align-items-md-stretch">
+                                <div class="form-group col-md-9">
+
+                                    <div class="form-group">
+                                        <label style="float: left">DNI</label>
+                                        <input class="form-control" formControlName="dni" type="dni"
+                                            placeholder="Ingrese su DNI" [(ngModel)]="patient.dni" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('dni')?.invalid && (getValue('dni').touched || getValue('dni').dirty)">
+                                            Ingrese un DNI válido</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+
+                                    <div class="form-group">
+                                        <label style="float: left">Edad</label>
+                                        <input class="form-control" formControlName="age" type="age"
+                                            placeholder="Ingrese su edad" [(ngModel)]="patient.age" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('age')?.invalid && (getValue('age').touched || getValue('age').dirty)">
+                                            Ingrese una edad válida (18-120)</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <br>
 
-                        <br>
+                            <div class="form-group col-md-12">
 
-                        <div class="row align-items-md-stretch">
-                            <div class="form-group col-md-9">
-                                <label for="idNumber" class="form-label">DNI</label>
-                                <input type="number" class="form-control" id="idNumber" aria-describedby="idNumber" required="" min="00000001" max="99999999" formControlName="idNumber">
-                                <div class="invalid-feedback">
-                                    Ingrese su DNI.
+                                <div class="form-group">
+                                    <label style="float: left">Obra Social</label>
+                                    <input class="form-control" formControlName="insurance" type="insurance"
+                                        placeholder="Ingrese su obra social" [(ngModel)]="patient.insurance" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('insurance')?.invalid && (getValue('insurance').touched || getValue('insurance').dirty)">
+                                        Ingrese una obra social válida</div>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="form-group col-md-8">
 
-                            <div class="form-group col-md-3">
-                                <label for="age" class="form-label">EDAD</label>
-                                <input type="number" class="form-control" id="age" aria-describedby="age" required="" min="1" max="120" formControlName="age">
-                                <div class="invalid-feedback">
-                                    Ingrese su edad.
+                                <div class="form-group">
+                                    <label style="float: left">Email</label>
+                                    <input class="form-control" formControlName="email" type="email"
+                                        placeholder="Ingrese su email" [(ngModel)]="patient.email" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('email')?.invalid && (getValue('email').touched || getValue('email').dirty)">
+                                        Ingrese un mail válido</div>
                                 </div>
-                            </div>                 
-                        </div>
-        
-                        <br>
+                                <br>
 
-                        <div class="form-group col-md-12">
-                            <label for="healthInsurance" class="form-label">OBRA SOCIAL</label>
-                            <input type="text" class="form-control" id="healthInsurance" aria-describedby="healthInsurance" required="" formControlName="healthInsurance">
-                            <div class="invalid-feedback">
-                                Ingrese su Obra Social.
+                                <div class="form-group">
+                                    <label style="float: left">Contraseña</label>
+                                    <input autocomplete="new-password" #password class="form-control"
+                                        formControlName="password" type="password" placeholder="Ingrese su contraseña"
+                                        [(ngModel)]="patient.password" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('password')?.invalid && (getValue('password').touched || getValue('password').dirty)">
+                                        Mínimo 6 caracteres</div>
+
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label style="float: left">Repita la contraseña</label>
+                                    <input autocomplete="new-password" #password class="form-control"
+                                        formControlName="rePassword" type="password"
+                                        placeholder="Re-Ingrese su contraseña" [(ngModel)]="rePassword" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('rePassword')?.invalid && (getValue('rePassword').touched || getValue('rePassword').dirty)">
+                                        Mínimo 6 caracteres</div>
+                                </div>
                             </div>
-                        </div>
+                            <hr>
 
-                        <hr>
-
-                        <div class="form-group col-md-8">
-                            <label for="email" class="form-label">CORREO ELECTRONICO</label>
-                            <input type="email" class="form-control" id="email" aria-describedby="email" required="" formControlName="email">
-                            <div class="invalid-feedback">
-                                Ingrese su correo electronico.
+                            <div class="container-input-file">
+                                <div>
+                                    <input class="form-control" formControlName="file" type="file" multiple
+                                        (change)="uploadImage($event)" placeholder="Ingrese su imagen">
+                                </div>
                             </div>
-                        </div>
+                            <br>
 
-                        <br>
-
-                        <div class="form-group col-md-8">
-                            <label for="password" class="form-label">CONTRASEÑA</label>
-                            <input type="password" class="form-control" id="password" aria-describedby="password" required="" formControlName="password">
-                            <div class="invalid-feedback">
-                                Ingrese su contraseña.
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-primary form-control" (click)="registerPatient()"
+                                    [disabled]="!form.valid">Registrar</button>
+                                <button class="btn btn-info form-control" routerLink="/register">Volver</button>
                             </div>
-                        </div>
+                        </form>
+                    </div>
 
-                        <br>
 
-                        <div class="form-group col-md-8">
-                            <label for="password2" class="form-label">CONFIRME SU CONTRASEÑA</label>
-                            <input type="password" class="form-control" id="password2" aria-describedby="password2" required="" formControlName="password2">
-                            <div class="invalid-feedback">
-                                Confirme su contraseña.
-                            </div>
-                        </div>
-                                              
-                        <hr> 
-                        
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Imagen de perfil</label>
-                            <input class="form-control" 
-                                   type="file"  
-                                   accept=".png,.jpg" 
-                                   id="formFile"required="" 
-                                   (change)="onFileSelected($event, true)">
-                            <div class="invalid-feedback">
-                                Debe seleccionar una foto de perfil.
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="formFile2" class="form-label">Imagen de perfil 2</label>
-                            <input class="form-control" 
-                                   type="file" 
-                                   accept=".png,.jpg" 
-                                   id="formFile2" 
-                                   required="" 
-                                   (change)="onFileSelected($event, false)">
-                            <div class="invalid-feedback">
-                                Debe seleccionar una foto de perfil.
-                            </div>
-                        </div>
-
-                        <hr> 
-
-                        <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary" style="width: 80%;" (click)="onSubmit()">ENVIAR</button>
-                        <button type="submit" class="btn btn-primary" style="width: 80%;" (click)="return()">VOLVER</button>
-                        </div>
-                    </form>
+                    <div class="col-md-6" style="text-align: center;">
+                        <img src='/assets/logos/patient.png' class="img-responsive" style="width: 80%;">
+                    </div>
                 </div>
 
-                
-                <div class="col-md-6" style="text-align: center;">
-                    <img src='/assets/logos/patient.png' class="img-responsive" style="width: 80%;">
-                </div>
             </div>
- 
         </div>
-      </div>
-    </div>     
+    </div>
 </div>

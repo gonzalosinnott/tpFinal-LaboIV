@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { CanActivate, Router } from '@angular/router';
+import { FirestoreService } from '../services/firestore.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RolesGuard implements CanActivate {
 
-  constructor(private readonly authService: AuthService,
+  constructor(private readonly firestore: FirestoreService,
               private readonly router: Router,) {}
 
   canActivate(): any {
-    this.authService.getUserRole().then
+    this.firestore.getUserRole().then
     (role => {
       if (role == 'PATIENT') {
         this.router.navigate(['/patient-dashboard']);

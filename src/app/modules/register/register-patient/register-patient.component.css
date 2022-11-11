@@ -2,7 +2,7 @@ button {
     margin: 5px;
 }
 
-.container {
-    margin-top: 400px;
-    width: fit-content;
+.errorMessage {
+    color: red;
 }
+

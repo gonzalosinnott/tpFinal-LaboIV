@@ -10,74 +10,96 @@
     </div>
     <div class="form-container">
       <div class="row align-items-md-stretch text-center">
-        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-          <mat-form-field class="form-control">
-            <mat-label>Correo electronico</mat-label>
-            <input matInput formControlName="email" type="text" autocomplete="off" required />
-            <mat-error *ngIf="email?.hasError('required')">
-              El correo electronico es obligatorio
-            </mat-error>
-            <mat-error *ngIf="email?.hasError('email')">
-              El correo electrónico no es válido. Por favor introduzca una dirección de correo electrónico válida.
-            </mat-error>
-          </mat-form-field>
-          <br>
-          <br>
-          <mat-form-field class="form-control">
-            <mat-label>Contraseña</mat-label>
-            <input matInput formControlName="password" type="password" autocomplete="off" required />
-            <mat-error *ngIf="password?.hasError('required')">
-              La contraseña es obligatoria.
-            </mat-error>
-          </mat-form-field>
-          <br>
-          <br>
-          <button [disabled]="form.invalid" style="width:100%" mat-raised-button type="submit">
-            Ingresar
-          </button>
-          <br>
-          <br>
-        </form>
-        <div class="row align-items-md-stretch">
-          <div class="brightness col text-center">
-            <img src='/assets/quick-access/quick-patient2.png' 
-                 class="img-responsive" 
-                 style="width: 100%;"
-                 (click)="fillFormPatient1()">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="card-body p-4">
+              
+              <div class="form-group">
+                  <label style="float: left">Correo Electronico</label>
+                  <input class="form-control" 
+                         formControlName="email" 
+                         type="email" 
+                         placeholder="Ingrese su email"
+                         [(ngModel)]="usuario.email" 
+                         required>
+                  <div style="float: left" 
+                       class="errorMessage"
+                       *ngIf="getValue('email')?.invalid && 
+                             (getValue('email').touched || getValue('email').dirty)">
+                    Ingrese un mail válido
+                  </div>
+              </div>
+              
+              <br>
+              <br>
+
+              <div class="form-group">
+                  <label style="float: left">Password</label>
+                  <input autocomplete="new-password" 
+                         class="form-control" 
+                         formControlName="password"
+                         type="password" 
+                         placeholder="Ingrese su password" 
+                         [(ngModel)]="usuario.password" 
+                         #password 
+                         required>
+                  <div style="float: left" 
+                       class="errorMessage"
+                       *ngIf="getValue('password')?.invalid && 
+                              (getValue('password').touched || getValue('password').dirty)">
+                    Mínimo 6 caracteres
+                  </div>
+              </div>
+
+              <br>
+              <br>
+
+              <button class="btn btn-primary form-control" 
+                      type="submit" 
+                      [disabled]="!form.valid">
+                Ingresar
+              </button>              
           </div>
-          <div class="brightness col text-center">
-            <img src='/assets/quick-access/quick-patient1.png' 
-                 class="img-responsive" 
-                 style="width: 100%;"
-                 (click)="fillFormPatient2()">
-          </div>
-          <div class="brightness col text-center">
-            <img src='/assets/quick-access/quick-patient3.png' 
-                 class="img-responsive" 
-                 style="width: 100%;"
-                 (click)="fillFormPatient3()">
-          </div>
-          <div class="brightness col text-center">
-            <img src='/assets/quick-access/quick-doctor1.png' 
-                 class="img-responsive" 
-                 style="width: 100%;"
-                 (click)="fillFormDoctor1()">
-          </div>
-          <div class="brightness col text-center">
-            <img src='/assets/quick-access/quick-doctor2.png' 
-                 class="img-responsive" 
-                 style="width: 100%;"
-                 (click)="fillFormDoctor2()">
-          </div>
-          <div class="brightness col text-center">
-            <img src='/assets/quick-access/quick-admin.png' 
-                 class="img-responsive" 
-                 style="width: 100%;"
-                 (click)="fillFormAdmin()">
-          </div>       
+      </form>
+
+      <div class="row align-items-md-stretch">
+        <div class="brightness col text-center">
+          <img src='/assets/quick-access/quick-patient2.png' 
+                class="img-responsive" 
+                style="width: 100%;"
+                (click)="fillFormPatient1()">
         </div>
-        <br>
+        <div class="brightness col text-center">
+          <img src='/assets/quick-access/quick-patient1.png' 
+                class="img-responsive" 
+                style="width: 100%;"
+                (click)="fillFormPatient2()">
+        </div>
+        <div class="brightness col text-center">
+          <img src='/assets/quick-access/quick-patient3.png' 
+                class="img-responsive" 
+                style="width: 100%;"
+                (click)="fillFormPatient3()">
+        </div>
+        <div class="brightness col text-center">
+          <img src='/assets/quick-access/quick-doctor1.png' 
+                class="img-responsive" 
+                style="width: 100%;"
+                (click)="fillFormDoctor1()">
+        </div>
+        <div class="brightness col text-center">
+          <img src='/assets/quick-access/quick-doctor2.png' 
+                class="img-responsive" 
+                style="width: 100%;"
+                (click)="fillFormDoctor2()">
+        </div>
+        <div class="brightness col text-center">
+          <img src='/assets/quick-access/quick-admin.png' 
+                class="img-responsive" 
+                style="width: 100%;"
+                (click)="fillFormAdmin()">
+        </div>       
       </div>
+      <br>
     </div>
   </div>
 </div>

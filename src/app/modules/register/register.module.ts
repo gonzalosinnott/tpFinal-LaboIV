@@ -7,7 +7,6 @@ import { RegisterHomeComponent } from './register-home/register-home.component';
 import { RegisterDoctorComponent } from './register-doctor/register-doctor.component';
 import { RegisterPatientComponent } from './register-patient/register-patient.component';
 
-
 @NgModule({
   declarations: [
     RegisterComponent,

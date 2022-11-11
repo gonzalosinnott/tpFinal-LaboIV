@@ -1,0 +1,19 @@
+.btn {
+    background-color: #00647e;
+    border-radius: 20px;
+    color: #fff;
+    padding: 10px 30px;
+    text-decoration: none;
+    transition: 0.5s background-color;
+}
+
+.btn:hover {
+    background-color: #52b7c0;
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    height: 64px;
+    padding: 0 30px;
+}

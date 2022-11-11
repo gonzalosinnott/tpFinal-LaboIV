@@ -59,3 +59,7 @@ h1 {
   .brightness img:hover {
       opacity: .5;
   }
+
+  .errorMessage{
+    color: red;
+  }

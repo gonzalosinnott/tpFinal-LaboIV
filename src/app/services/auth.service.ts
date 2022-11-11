@@ -1,164 +1,111 @@
-import {
-  Auth,
-  signInWithEmailAndPassword,
-  signOut,
-} from '@angular/fire/auth';
-
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
-import firebase from 'firebase/compat/app';
-
-
 import { Injectable } from '@angular/core';
-
-import { UserData } from '../interfaces/user-data';
-import { LoginData } from '../interfaces/login-data';
-import { of } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
+import { Router } from '@angular/router';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, updateProfile, UserCredential } from "firebase/auth";
+import { Auth } from '@angular/fire/auth';
+import { User } from '../models/user';
+import { StorageService } from './storage.service';
+import { FirestoreService } from './firestore.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
 
-  userData: any; // Save logged in user data
-  now = new Date();
-  isLogin = false;    
-  roleAs: string;
+  public userCredential: UserCredential | any;
 
-  constructor(private auth: Auth,
-              public afAuth: AngularFireAuth,
-              public afs: AngularFirestore, // Inject Firebase auth service
-    ) {
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
+  constructor(public afauth: AngularFireAuth, 
+              private router: Router, 
+              private readonly auth: Auth,
+              private firestoreService: FirestoreService,
+              private storage: StorageService,
+              private toastr: ToastrService) { }
+
+  async sendEmail() {
+    this.userCredential = this.auth.currentUser;
+    return await sendEmailVerification(this.userCredential).then((res) => { 
+        this.toastr.success("Envio de correo de verificación exitoso");
+      })
+      .catch(e => { 
+        this.toastr.error(e.message);
+      })
+      .finally(() => { });
+  }
+
+  async login(email: string, password: string) {
+    return await signInWithEmailAndPassword(this.auth, email, password).then(res => {
+      if (res.user.emailVerified) {
+        var uid = this.auth.currentUser.uid
+        this.firestoreService.getUserData(uid).subscribe((user: any) => {
+          localStorage.setItem('userData', JSON.stringify(user));
+        });
       } else {
-        localStorage.setItem('user', 'null');
+        this.userCredential = res;
+        this.router.navigate(['verification'])
+      }
+    }).catch(error => {
+      switch (error.code) {
+        case 'auth/invalid-email':
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+        case 'auth/internal-error':
+          throw new Error('Credenciales Inválidas');
+        default:
+          throw new Error(error.message);
       }
     });
   }
-  
-  registerUser({ email, 
-                    password, 
-                    name, 
-                    lastName, 
-                     }: UserData) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password)
-    .then(credential => {
-      credential.user.updateProfile({displayName: name + " " + lastName,})
-      credential.user.sendEmailVerification();
-    })
-    .catch(error => {
+
+  async loginWithGoogle(email: string, password: string) {
+    return await this.afauth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => this.router.navigate(['home'])).catch(error => {
+      throw new Error('Error de logueo de Google');
+    });
+  }
+
+  async register(user: User, files: any) {
+    return await createUserWithEmailAndPassword(this.auth, user.email, user.password).then(res => {
+      sendEmailVerification(res.user);
+      user.uid = res.user.uid;
+      this.storage.updateImages(user.email, files).then(async () => {
+        await this.storage.getProfilePictures(user.email).then(() => {
+          this.uploadUser(user.name, user.lastName, this.storage.listUrl[0]);
+          user.photoURL = this.storage.listUrl[0];
+          user.imageUrl = [...this.storage.listUrl];
+          this.firestoreService.addUser(user).catch(() => { console.log('Error sending patient') });
+        })
+      })
+      this.router.navigate(['verification']);
+      return res;
+    }).catch(error => {
       switch (error.code) {
         case 'auth/invalid-email':
-          throw new Error('Mail Inválido');
+          this.toastr.error("Correo Invalido");
+          break;
         case 'auth/email-already-in-use':
-          throw new Error('El correo ya se encuentra en uso');
+          this.toastr.error("Correo ya registrado");
+          break;
         default:
-          throw new Error(error.message);
-      }});
-  }
-
-  login({ email, password }: LoginData) {
-    return signInWithEmailAndPassword(this.auth, email, password)
-    .then((result) => { 
-      this.userData = result.user;
-      localStorage.setItem('user', JSON.stringify(this.userData));
-    })
-  }
-
-  logout() {
-    return signOut(this.auth)
-    .then((result) => {
-      localStorage.removeItem('user');
-      this.userData = null;
-    })
-  }
-
-  SetPatientData(user: any, name, lastName, idNumber, age, healthInsurance, role, formFile, formFile2) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `user-registry/${user.uid}`
-    );
-
-    const userLog: AngularFirestoreDocument<any> = this.afs.doc(
-      `users-log/${this.now}`
-    );
-
-    const userData: any = {
-      uid: user.uid,
-      email: user.email,
-      displayName: name + " " + lastName,
-      emailVerified: user.emailVerified,
-      name: name,
-      lastName: lastName,
-      idNumber: idNumber,
-      age: age,
-      healthInsurance: healthInsurance,
-      role: role,
-      formFile: formFile,
-      formFile2: formFile2,
-    };
-
-    const userDataLog: any = {
-      displayName: user.displayName,
-      email: user.email,
-      loginDate : this.now.toLocaleString()
-    };
-
-    userLog.set(userDataLog, {
-      merge: false,
+          this.toastr.error(error.message);
+          break;
+      }
     });
-    
-    return userRef.set(userData, {
-      merge: true,
+  }
+
+  async uploadUser(name: string,  lastName: string, url: string) {
+    let auth = getAuth();
+    return await updateProfile(auth.currentUser!, { displayName: name + ' ' + lastName, photoURL: url }).then().catch(
+      (err) => console.log(err));
+  }
+
+  async logout() {
+    return await this.afauth.signOut().then(res => this.router.navigate(['login'])).catch(error => {
+      throw new Error('Error en desloguearse');
     });
   }
 
   getAuth() {
-    return this.afAuth.authState;
+    return this.afauth.authState;
   }
-
-  getUserRole() {
-    var data;
-    return firebase.firestore().collection('user-registry')
-                               .where('uid', '==', this.userData.uid)
-                               .limit(1)
-                               .get()
-                               .then((querySnapshot) => {
-                                 querySnapshot.forEach((doc) => {
-                                     data = doc.data()['role'];
-                                 });
-                                 console.log(data);
-                                 localStorage.setItem('ROLE', data)
-                                 return data;
-                               })
-                               .catch((error) => {
-                                 console.log("Error getting documents: ", error);
-                               });
-  }
-
-  getUserVerified() {
-    var data;
-
-    return firebase.firestore().collection('user-registry')
-                               .where('displayName', '==', this.userData.displayName)
-                               .limit(1)
-                               .get()
-                               .then((querySnapshot) => {
-                                 querySnapshot.forEach((doc) => {
-                                     data = doc.data()['emailVerified'];
-                                 });
-                                 console.log(data);
-                                 return data;
-                               })
-                               .catch((error) => {
-                                 console.log("Error getting documents: ", error);
-                               });
-  }
-
 }

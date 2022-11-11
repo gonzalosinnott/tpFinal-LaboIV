@@ -1,0 +1,41 @@
+<div class="container">
+
+    <div class="row align-items-md-stretch">
+
+        <div class="col-md-8">
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h1>PERFIL</h1>
+                <hr>
+                <div>
+                    <div class="row align-items-md-stretch">
+                        <div class="col-md-2">
+                            <img class="img-thumbnail img-fluid"
+                                src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
+                                alt="{{user.displayName}}">
+                        </div>
+                        <div class="col-md-6 info">
+                            <p>Usuario: <strong>{{(user.displayName)}}</strong></p>
+                            <p>Email: <strong>{{user.email}}</strong></p>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4 ">
+            <div class="h-100 p-5 bg-light border rounded-3">
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+  
+  
+  
+  
+  
+  
+  

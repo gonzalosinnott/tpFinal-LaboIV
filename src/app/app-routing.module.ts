@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
+import { VerificationComponent } from './components/verification/verification.component';
+
 const routes: Routes = [
   { 
     path: '', 
@@ -36,7 +38,11 @@ const routes: Routes = [
     .then(m => m.PatientDashboardModule),
     canActivate: [AuthGuard]
   },
-  
+  {
+    path: 'verification',
+    component: VerificationComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

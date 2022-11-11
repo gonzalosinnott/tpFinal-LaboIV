@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-login',
@@ -13,50 +15,78 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  role: string;
+  usuario = new User();
+  userData: any;
+  role: any;
 
-  constructor(private fb: FormBuilder,
-              private readonly authService: AuthService,
-              private readonly router: Router,
-              private toastr: ToastrService) { }
+  constructor(private auth: AuthService,
+              private firestoreService: FirestoreService,
+              private router: Router, 
+              private readonly fb: FormBuilder, 
+              private spinnerService: SpinnerService,
+              private toastr: ToastrService) {                
+                this.form = new FormGroup({
+                  email: new FormControl(),
+                  password: new FormControl()
+                });
+  }
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+  getValue(value: string): AbstractControl {
+    return this.form.get(value) as FormGroup;
+  }
+
+  ingresar(user: User) {
+    this.spinnerService.show();
+    this.auth.login(user.email, user.password).then(res => {
+      var data = JSON.parse(localStorage.getItem('userData')); 
+      this.getUserRole(data[0].uid);     
+    }) 
+    .catch(e => { this.toastr.error(e.message) })
+    .finally(() => { this.spinnerService.hide(); });
+  }
+
+  getUserRole(uid:any) {
+    this.spinnerService.show();
+    new Promise((resolve, reject) => {
+      this.firestoreService.getUserRole(uid).then((data) => {
+        resolve(data);
+      });
+    })
+    .then((data) => {
+      this.role = data;
+      console.log(this.role);
+      this.redirect();
+    })
+    .catch((error) => {
+      this.toastr.error('Las contraseñas no coinciden');
+    }).finally(() => {
+      this.spinnerService.hide();
     });
-  }
-
-  get email() {
-    return this.form.get('email');
-  }
-
-  get password() {
-    return this.form.get('password');
-  }
-
-  onSubmit() {
-    this.authService
-        .login(this.form.value)
-        .then(() =>this.redirect())
-        .catch((e) => this.toastr.error(e.message));
   }
 
   redirect() {
-    this.authService.getUserRole().then
-    (role => {
-      if (role == 'PATIENT') {
-        this.router.navigate(['/patient-dashboard']);
-      }
-      
-      if (role == 'DOCTOR') {
-        this.router.navigate(['/doctor-dashboard']);
-      } 
+    if (this.role === 'Patient') {
+      this.router.navigate(['patient-dashboard']);
+    }
+    
+    if (this.role === 'Specialist') {
+      this.router.navigate(['doctor-dashboard']);
+    }
+   
+    if (this.role === 'admin-dashboard') {
+      this.router.navigate(['verification']);
+    }
+  }
 
-      if(role == 'ADMIN') {
-        this.router.navigate(['/admin-dashboard']);
-      } 
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      email: ['', Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$")],
+      password: ['', [Validators.minLength(6), Validators.maxLength(20)]]
     });
+  }
+
+  onSubmit() {
+    this.ingresar(this.form.value);
   }
 
   fillFormPatient1() : void {
@@ -100,5 +130,4 @@ export class LoginComponent implements OnInit {
       password: ['123456'],
     });
   }
-
 }
