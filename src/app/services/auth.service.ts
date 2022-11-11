@@ -16,6 +16,7 @@ import { SpinnerService } from './spinner.service';
 export class AuthService {
 
   public userCredential: UserCredential | any;
+  userData: any; 
 
   constructor(public afauth: AngularFireAuth, 
               private router: Router, 
@@ -23,7 +24,24 @@ export class AuthService {
               private firestoreService: FirestoreService,
               private storage: StorageService,
               private toastr: ToastrService,
-              private spinnerService: SpinnerService) { }
+              private spinnerService: SpinnerService) { 
+
+   this.setLocalStorage();
+  }
+
+  setLocalStorage() {
+    this.afauth.authState.subscribe((user) => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('userData', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('userData')!);        
+      } else {
+        localStorage.setItem('userData', 'null');
+        JSON.parse(localStorage.getItem('userData')!);
+      }
+    });
+  
+  }
 
   async sendEmail() {
     this.userCredential = this.auth.currentUser;
@@ -42,7 +60,7 @@ export class AuthService {
       if (res.user.emailVerified) {
         var uid = this.auth.currentUser.uid
         this.firestoreService.getUserData(uid).subscribe((user: any) => {
-          localStorage.setItem('userData', JSON.stringify(user));
+          this.setLocalStorage();
         });
       } else {
         this.userCredential = res;
@@ -136,13 +154,18 @@ export class AuthService {
   }
 
   async logout() {
-    localStorage.clear();
-    return await this.afauth.signOut().then(res => this.router.navigate(['login'])).catch(error => {
+    this.setLocalStorage();
+    return await this.afauth.signOut()
+    .then(res => {
+      this.router.navigate(['login']);
+      
+    })
+    .catch(error => {
       throw new Error('Error en desloguearse');
     });
   }
 
   getAuth() {
     return this.afauth.authState;
-  }
+  } 
 }

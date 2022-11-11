@@ -14,11 +14,16 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { ToastrModule } from 'ngx-toastr';
 import { SpinnerModule } from './components/spinner/spinner.module';
 import { VerificationComponent } from './components/verification/verification.component';
+import { SharedModule } from './components/common-module/common.module';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     VerificationComponent,
+    NotFoundComponent,  
   ],
   imports: [    
     BrowserModule,
@@ -33,9 +38,15 @@ import { VerificationComponent } from './components/verification/verification.co
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     ToastrModule.forRoot(),
-    SpinnerModule
+    SpinnerModule,
+    SharedModule    
   ],
-  providers: [],
+  exports: [
+   
+  ],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -7,7 +7,7 @@ import { RegisterDoctorComponent } from './register-doctor/register-doctor.compo
 const routes: Routes = [
   { path: '', component: RegisterHomeComponent },
   { path: 'patient', component: RegisterPatientComponent },
-  { path: 'doctor', component: RegisterDoctorComponent },
+  { path: 'doctor', component: RegisterDoctorComponent }
 ];
 
 @NgModule({

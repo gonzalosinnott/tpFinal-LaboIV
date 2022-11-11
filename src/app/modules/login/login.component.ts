@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TwitterAuthProvider } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { FirestoreService } from 'src/app/services/firestore.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
@@ -42,6 +39,7 @@ export class LoginComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    sessionStorage.clear();
     localStorage.clear();
     this.form = this.fb.group({
       email: ['', Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$")],

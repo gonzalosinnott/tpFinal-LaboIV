@@ -8,17 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class PatientHomeComponent implements OnInit {
 
-  userData: any;
-  displayName: any;
-  user:any;
-
-  constructor(public authService: AuthService,) {
-    
-   }
+  constructor() {}
 
   ngOnInit(): void {
-    this.userData = JSON.parse(localStorage.getItem('userData'));
-    this.displayName = this.userData[0].displayName;
-    this.user = this.userData[0];
+    
   }
 }

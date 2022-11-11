@@ -29,23 +29,19 @@ export class LoggedGuard implements CanActivate {
         if (role == 'Doctor') {
           this.router.navigate(['/doctor']);
           this.spinnerService.hide();
-          this.toastr.error("Sesion ya iniciada.");
           return false;   
         }        
         if( role == 'Admin') {
           this.router.navigate(['/admin']);
           this.spinnerService.hide();
-          this.toastr.error("Sesion ya iniciada.");  
           return false;
         }        
         if( role == 'Patient') {
           this.router.navigate(['/patient']);
           this.spinnerService.hide();
-          this.toastr.error("Sesion ya iniciada.");
           return false;            
         }  
         this.spinnerService.hide();
-        this.toastr.error("Sesion ya iniciada.");  
         return false;
       });
       this.spinnerService.hide();
