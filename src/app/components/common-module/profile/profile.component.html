@@ -17,8 +17,25 @@
             <p>Especialidades:</p>                 
             <div *ngFor="let specialty of user.specialties; let i=index"> 
                 <ul>
-                    <li>{{specialty}}</li>
+                    <li>{{specialty | specialties}}</li>
                 </ul>    
+            </div>
+            <hr>
+            <p>Dias y Horarios de Atencion:</p>
+            <div *ngIf="user.serviceHours == ''; else elseBlock" >
+                <p>No tiene dias y horarios de atencion cargados</p>
+            </div>
+            <ng-template #elseBlock>
+                <div *ngFor="let hours of user.serviceHours; let i=index"> 
+                    <ul>
+                        <li>{{hours | serviceHours}}</li>
+                    </ul>    
+                </div>
+            </ng-template>
+            <div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    CARGAR / MODIFICAR HORARIOS DE ATENCION
+                  </button>
             </div>
         </div>   
         <div *ngIf="user.role == 'Admin'">
@@ -28,4 +45,86 @@
 </div>
 </div>
 
-<hr>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>DIAS Y HORARIOS DE ATENCION</h1>
+                <p>
+                    Elija su horario de atencion (abierto de 08:00 a 18:00)
+                </p>
+      
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">DIA</th>
+                            <th scope="col">DESDE</th>
+                            <th scope="col">HASTA</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>                
+                        <tr *ngFor="let day  of daysData; let i=index">                            
+                            <td class="align-middle">
+                                <input type="checkbox"  
+                                        class="btn-check" 
+                                        id= {{day.value}} 
+                                        autocomplete="off" 
+                                        [value]="day.value + '-' + day.valuesFrom + '-' + day.valuesTo" 
+                                        (change)="onCheckboxChange($event)" />
+                            <label  class="btn btn-outline-primary day" for={{day.value}}>                            
+                                {{day.name}}
+                            </label>
+                            </td>
+                            <td class="align-middle">
+                                <input type="time"
+                                       list="times" 
+                                       class="form-control time"
+                                       [(ngModel)]="day.valuesFrom">
+                                <span class="validity"></span>
+                            </td>
+                            <td class="align-middle">
+                                <input type="time"
+                                       list="times"
+                                       class="form-control time"
+                                       [(ngModel)]="day.valuesTo">
+                                <span class="validity"></span>                            
+                            </td>                           
+                        </tr>
+                    </tbody>                    
+                </table>                 
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateServiceHours()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<datalist id="times">>
+    <option value="08:00:00">
+    <option value="08:30:00">
+    <option value="09:00:00">
+    <option value="09:30:00">
+    <option value="10:00:00">
+    <option value="10:30:00">
+    <option value="11:00:00">
+    <option value="11:30:00">
+    <option value="12:00:00">
+    <option value="12:30:00">
+    <option value="13:00:00">
+    <option value="13:30:00">
+    <option value="14:00:00">
+    <option value="14:30:00">
+    <option value="15:00:00">
+    <option value="15:30:00">
+    <option value="16:00:00">
+    <option value="16:30:00">
+    <option value="17:00:00">
+    <option value="17:30:00">
+    <option value="18:00:00">                  
+</datalist>
+

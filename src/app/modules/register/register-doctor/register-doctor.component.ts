@@ -32,12 +32,12 @@ export class RegisterDoctorComponent implements OnInit {
     { name: 'Neurologia', value: 'neurology' },
     { name: 'Obstetricia', value: 'obstetrics' },
     { name: 'Oftalmologia', value: 'oftalmology' },
-    { name: 'Neumonologia', value: 'otorhinolaryngology' },
-    { name: 'Radiologia', value: 'pulmonology' },
-    { name: 'Cirugia', value: 'radiology' },
-    { name: 'Urologia', value: 'surgery' },
-    { name: 'Traumatologia', value: 'urology'},
-    { name: 'Otorrinonaringologia', value: 'traumatology' }
+    { name: 'Neumonologia', value: 'pulmonology' },
+    { name: 'Radiologia', value: 'radiology' },
+    { name: 'Cirugia', value: 'surgery' },
+    { name: 'Urologia', value: 'urology' },
+    { name: 'Traumatologia', value: 'traumatology'},
+    { name: 'Otorrinonaringologia', value: 'otorhinolaryngology' }
   ];
 
   constructor(private fb: FormBuilder,

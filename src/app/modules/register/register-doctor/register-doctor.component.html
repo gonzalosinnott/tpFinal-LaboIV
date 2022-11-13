@@ -68,10 +68,11 @@
                                         <label style="float: left">Especialidades:</label>
                                         <br>
                                         <div *ngFor="let specialty of specialtiesList; let i=index">
-                                            <label>
-                                                <input type="checkbox" [value]="specialty.value" (change)="onCheckboxChange($event)" />
-                                                {{specialty.name}}
-                                              </label>
+                                            <input type="checkbox" class="btn-check" id={{specialty.value}} autocomplete="off" [value]="specialty.value"
+                                            (change)="onCheckboxChange($event)" />
+                                        <label class="btn btn-outline-primary day" for={{specialty.value}}>
+                                            {{specialty.name}}
+                                        </label>
                                         </div>
                                     </div> 
                                 </div>

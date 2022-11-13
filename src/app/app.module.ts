@@ -17,13 +17,11 @@ import { VerificationComponent } from './components/verification/verification.co
 import { SharedModule } from './components/common-module/common.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
     VerificationComponent,
-    NotFoundComponent,  
+    NotFoundComponent,
   ],
   imports: [    
     BrowserModule,
@@ -39,10 +37,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     provideStorage(() => getStorage()),
     ToastrModule.forRoot(),
     SpinnerModule,
-    SharedModule    
+    SharedModule,
   ],
   exports: [
-   
+    
   ],
   providers: [
     

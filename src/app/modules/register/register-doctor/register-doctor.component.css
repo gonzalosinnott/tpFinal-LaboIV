@@ -5,3 +5,8 @@ button {
 .errorMessage {
     color: red;
 }
+
+.day{
+    margin: 5px;
+    width: 100%;
+}

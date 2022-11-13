@@ -106,6 +106,23 @@ export class FirestoreService {
                                  console.log("Error getting documents: ", error);
                                });
   }
+
+  updateServiceHours(uid: any, hours: any) {
+    return firebase.firestore().collection('users')
+                               .where('uid', '==', uid)
+                               .get()
+                               .then((querySnapshot) => {
+                                 querySnapshot.forEach((doc) => {
+                                     doc.ref.update({
+                                        serviceHours: hours
+                                    });
+                                     console.log(doc.data()['approved']);
+                                 });                                 
+                               })
+                               .catch((error) => {
+                                 console.log("Error updating document: ", error);
+                               });  
+  }
  
 }
   
