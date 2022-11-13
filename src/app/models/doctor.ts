@@ -1,4 +1,4 @@
-export class Patient {
+export class Doctor {
     id?: string;
     email: string;
     password: string;
@@ -10,9 +10,11 @@ export class Patient {
     dni: string;
     insurance: string;
     imageUrl: string[] = [];
-    role: string = 'Patient';
+    role: string = 'Doctor';
+    specialties?: string[] = [];
+    
 
-    constructor(email: string = '', password: string = '', displayName: string = '', photoURL: string = '', name: string = '', lastName: string = '', age: number = 0, dni: string = '', insurance: string = '', imageUrl: string[] = []) {
+    constructor(email: string = '', password: string = '', displayName: string = '', photoURL: string = '', name: string = '', lastName: string = '', age: number = 0, dni: string = '', insurance: string = '', imageUrl: string[] = [], specialties: string[] = []) {
         this.email = email;
         this.password = password;
         this.displayName = displayName;
@@ -23,6 +25,7 @@ export class Patient {
         this.dni = dni;
         this.insurance = insurance;
         this.imageUrl = imageUrl;
-        this.role = 'Patient';
+        this.role = 'Doctor';
+        this.specialties = specialties;
     }
 }

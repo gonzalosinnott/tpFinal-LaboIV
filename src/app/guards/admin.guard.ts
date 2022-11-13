@@ -25,18 +25,18 @@ export class AdminGuard implements CanActivate {
     
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.firestore.getUserRole(this.Auth.currentUser.uid).then
+        var userStorage = JSON.parse(localStorage.getItem('userData'));
+        this.firestore.getUserRole(userStorage.uid).then
         (role => { 
           if( role == 'Admin') {
-            this.router.navigate(['/admin']);
             this.spinnerService.hide();   
             return true;
           }
           
           if (role == 'Doctor') {
             this.router.navigate(['/doctor']);
-            this.spinnerService.hide();
             this.toastr.error("Acceso denegado. No tiene permisos para acceder a esta página.");   
+            this.spinnerService.hide();
             return false;
           }
     

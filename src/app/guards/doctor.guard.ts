@@ -24,11 +24,11 @@ export class DoctorGuard implements CanActivate {
 
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.firestore.getUserRole(this.Auth.currentUser.uid).then
+        var userStorage = JSON.parse(localStorage.getItem('userData'));
+        this.firestore.getUserRole(userStorage.uid).then
         (role => {
           console.log(role);
           if (role == 'Doctor') {
-            this.router.navigate(['/doctor']);
             this.spinnerService.hide();   
             return true;
           }

@@ -1,1 +1,1 @@
-export type Roles = 'Specialist' | 'Patient' | 'Admin';
+export type Roles = 'Doctor' | 'Patient' | 'Admin';

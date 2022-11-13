@@ -1,138 +1,154 @@
 <div class="container">
- 
-    <div class="p-2 mb-2 bg-light rounded-3" style="width: 100%">
-      <div class="container-fluid py-1">
-        <div>
-            <br>
-            <h1 style="text-align: center;">REGISTRO PACIENTE</h1>
-            <hr>
-            <div class="row align-items-md-stretch">
+    <div class="p-2 mb-2 bg-light border rounded-3" style="width: 100%">
+        <div class="container-fluid py-1">
+            <div>
+                <br>
+                <h1 style="text-align: center;">REGISTRO PROFESIONAL</h1>
+                <hr>
+                <div class="row align-items-md-stretch">
 
-                <div class="col-md-6">
-                    <form class="form was-validated" [formGroup]="form">
-                        <div class="row align-items-md-stretch">
-                            <div class="form-group col-md-6">
-                                <label for="name" class="form-label">NOMBRE</label>
-                                <input type="text" class="form-control" id="name" aria-describedby="name" required="" formControlName="name">
-                                <div class="invalid-feedback">
-                                    Ingrese su nombre.
+                    <div class="col-md-6">
+                        <form [formGroup]="form">
+
+                            <div class="row align-items-md-stretch">
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label style="float: left">Nombre</label>
+                                        <input class="form-control" formControlName="name" type="name"
+                                            placeholder="Ingrese su nombre" [(ngModel)]="doctor.name" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('name')?.invalid && (getValue('name').touched || getValue('name').dirty)">
+                                            Ingrese un nombre válido</div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="form-group col-md-6">
-                                <label for="lastName" class="form-label">APELLIDO</label>
-                                <input type="text" class="form-control" id="lastName" aria-describedby="lastName" required="" formControlName="lastName">
-                                <div class="invalid-feedback">
-                                    Ingrese su apellido.
-                                </div>
-                            </div>
-                        </div>
 
-                        <br>
-
-                        <div class="row align-items-md-stretch">
-                            <div class="form-group col-md-9">
-                                <label for="phone" class="form-label">TELEFONO</label>
-                                <input type="number" class="form-control" id="phone" aria-describedby="phone" required="" min="1" max="9999999999" formControlName="phone">
-                                <div class="invalid-feedback">
-                                    Ingrese su telefono (max. 10 digitos).
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label style="float: left">Apellido</label>
+                                        <input class="form-control" formControlName="lastName" type="apellido"
+                                            placeholder="Ingrese su apellido" [(ngModel)]="doctor.lastName" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('lastName')?.invalid && (getValue('lastName').touched || getValue('lastName').dirty)">
+                                            Ingrese un apellido válido</div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="age" class="form-label">EDAD</label>
-                                <input type="number" class="form-control" id="age" aria-describedby="age" required="" min="18" max="99" formControlName="age">
-                                <div class="invalid-feedback">
-                                    Ingrese su edad (18-99).
-                                </div>
-                            </div>                 
-                        </div>
+                            <br>
 
-                        <br>
+                            <div class="row align-items-md-stretch">
+                                <div class="form-group col-md-9">
+                                    <div class="form-group">
+                                        <label style="float: left">DNI</label>
+                                        <input class="form-control" formControlName="dni" type="dni"
+                                            placeholder="Ingrese su DNI" [(ngModel)]="doctor.dni" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('dni')?.invalid && (getValue('dni').touched || getValue('dni').dirty)">
+                                            Ingrese un DNI válido</div>
+                                    </div>
+                                </div>
 
-                        <div class="form-group col-md-12">
-                            <select class="form-select" id="favGame" aria-expanded="false" required="" formControlName="favGame">
-                                <option selected="" disabled="" value="">JUEGO PREFERIDO</option>
-                                <option value="ahorcado">AHORCADO</option>
-                                <option value="preguntados">PREGUNTADOS</option>
-                                <option value="mayorMenor">MAYOR O MENOR</option>
-                                <option value="snake">LA SERPIENTE</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Ingrese su juego preferido.
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <div class="row align-items-md-stretch">
-                            <div class="form-group col-md-4">
-                                <label for="experience">EXPERIENCIA GENERAL</label>       
-                                <div class="btn-group-vertical">               
-                                <div class="form-check" >
-                                    <input class="form-check-input" type="radio" name="experience" id="excelent" required="" formControlName="experience" value="excelent">
-                                    <label class="form-check-label" for="excelent">
-                                        EXCELENTE
-                                    </label>                                    
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="experience" id="good" required="" 
-                                    formControlName="experience" value="good">
-                                    <label class="form-check-label" for="good">
-                                        BUENA
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="experience" id="regular" required="" 
-                                    formControlName="experience" value="regular">
-                                    <label class="form-check-label" for="regular">
-                                        REGULAR
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="experience" id="bad" required="" 
-                                    formControlName="experience" value="bad">
-                                    <label class="form-check-label" for="bad">
-                                        MALA
-                                    </label>
-                                    <div class="invalid-feedback">
-                                        Califique su experiencia.
-                                    </div>    
-                                </div>
-                                
+                                <div class="form-group col-md-3">
+                                    <div class="form-group">
+                                        <label style="float: left">Edad</label>
+                                        <input class="form-control" formControlName="age" type="age"
+                                            placeholder="Ingrese su edad" [(ngModel)]="doctor.age" required>
+                                        <div class="errorMessage"
+                                            *ngIf="getValue('age')?.invalid && (getValue('age').touched || getValue('age').dirty)">
+                                            Ingrese una edad válida (18-120)</div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <br>
+
+                            <div class="row align-items-md-stretch">
+                                <div class="form-group col-md-4">
+                                    <div class="form-group">
+                                        <label style="float: left">Especialidades:</label>
+                                        <br>
+                                        <div *ngFor="let specialty of specialtiesList; let i=index">
+                                            <label>
+                                                <input type="checkbox" [value]="specialty.value" (change)="onCheckboxChange($event)" />
+                                                {{specialty.name}}
+                                              </label>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <br>
+                                <div class="form-group col-md-8">
+                                    <div class="form-group">
+                                        <label style="float: left">Otra especialidad</label>
+                                        <input class="form-control" formControlName="extraSpecialty" type="extraSpecialty"
+                                            placeholder="Ingrese otra especialidad (opcional)"
+                                            [(ngModel)]="extraSpecialty">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
 
                             <div class="form-group col-md-8">
                                 <div class="form-group">
-                                    <label for="opinion">DEJANOS TU OPINION:</label>
-                                    <textarea class="form-control" id="opinion" rows="3" required="" formControlName="opinion"></textarea>
-                                    <div class="invalid-feedback">
-                                        Ingrese un comentario.
-                                    </div>
-                                </div>                                
+                                    <label style="float: left">Email</label>
+                                    <input class="form-control" formControlName="email" type="email"
+                                        placeholder="Ingrese su email" [(ngModel)]="doctor.email" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('email')?.invalid && (getValue('email').touched || getValue('email').dirty)">
+                                        Ingrese un mail válido</div>
+                                </div>
+
+                                <br>
+
+                                <div class="form-group">
+                                    <label style="float: left">Contraseña</label>
+                                    <input autocomplete="new-password" #password class="form-control"
+                                        formControlName="password" type="password" placeholder="Ingrese su contraseña"
+                                        [(ngModel)]="doctor.password" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('password')?.invalid && (getValue('password').touched || getValue('password').dirty)">
+                                        Mínimo 6 caracteres</div>
+                                </div>
+
+                                <br>
+                                
+                                <div class="form-group">
+                                    <label style="float: left">Repita la contraseña</label>
+                                    <input autocomplete="new-password" #password class="form-control"
+                                        formControlName="rePassword" type="password"
+                                        placeholder="Re-Ingrese su contraseña" [(ngModel)]="rePassword" required>
+                                    <div class="errorMessage"
+                                        *ngIf="getValue('rePassword')?.invalid && (getValue('rePassword').touched || getValue('rePassword').dirty)">
+                                        Mínimo 6 caracteres</div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <br>
-                        
-                        
+                            
+                            <hr>
 
-                        <br>
-                        <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary" style="width: 80%;" (click)="onSubmit()">ENVIAR</button>
-                        <button type="submit" class="btn btn-primary" style="width: 80%;" (click)="return()">VOLVER</button>
-                        </div>
-                    </form>
+                            <div class="container-input-file">
+                                <div>
+                                    <input class="form-control" formControlName="file" type="file" multiple
+                                        (change)="uploadImage($event)" placeholder="Ingrese su imagen">
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-primary form-control" (click)="registerDoctor()"
+                                    [disabled]="!form.valid">Registrar</button>
+                                <button class="btn btn-info form-control" routerLink="/register">Volver</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="col-md-6" style="text-align: center;">
+                        <img src='/assets/logos/doctor.png' class="img-responsive" style="width: 80%;">
+                    </div>
                 </div>
 
-                
-                <div class="col-md-6" style="text-align: center;">
-                    <img src='/assets/logos/doctor.png' class="img-responsive" style="width: 80%;">
-                </div>
             </div>
- 
         </div>
-      </div>
-    </div>     
+    </div>
 </div>

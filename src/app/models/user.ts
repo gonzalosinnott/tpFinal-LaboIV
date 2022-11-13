@@ -13,11 +13,12 @@ export class User {
     dni: string;
     insurance?: string;
     imageUrl: string[] = [];
-    specialty?: string[] = [];
+    specialties?: string[] = [];
     role: Roles;
     emailVerified?: boolean;
+    approved?: boolean;
 
-    constructor(uid: string = '', email: string = '', password: string = '', displayName: string = '', photoURL: string = '', name: string = '', lastName: string = '', age: number = 0, dni: string = '', insurance: string = '', imageUrl: string[] = [], specialty: string[] = [],  role: Roles = 'Admin', emailVerified: boolean = false) {
+    constructor(uid: string = '', email: string = '', password: string = '', displayName: string = '', photoURL: string = '', name: string = '', lastName: string = '', age: number = 0, dni: string = '', insurance: string = '', imageUrl: string[] = [], specialties: string[] = [],  role: Roles = 'Admin', emailVerified: boolean = false, approved: boolean = false) {
         this.email = email;
         this.password = password;
         this.displayName = displayName;
@@ -28,9 +29,10 @@ export class User {
         this.dni = dni;
         this.insurance = insurance;
         this.imageUrl = imageUrl;
-        this.specialty = specialty;
+        this.specialties = specialties;
         this.role = role;
         this.emailVerified = emailVerified;
+        this.approved = approved;
         this.uid = uid;
     }
 }

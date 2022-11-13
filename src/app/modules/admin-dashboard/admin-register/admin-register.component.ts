@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from 'src/app/services/auth.service';
+import { Admin } from 'src/app/models/admin';
 import { User } from 'src/app/models/user';
-import { SpinnerService } from 'src/app/services/spinner.service';
-import { Patient } from 'src/app/models/patient';
+import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-register-patient',
-  templateUrl: './register-patient.component.html',
-  styleUrls: ['./register-patient.component.css'],
+  selector: 'app-admin-register',
+  templateUrl: './admin-register.component.html',
+  styleUrls: ['./admin-register.component.css']
 })
-export class RegisterPatientComponent implements OnInit {
+export class AdminRegisterComponent implements OnInit {
+
   form: FormGroup;
   file: File | null = null;
   isSpecialist: boolean = false;
   user = new User();
-  patient = new Patient();
+  admin = new Admin();
   rePassword: string = '';
 
   constructor(private fb: FormBuilder,
@@ -37,8 +37,23 @@ export class RegisterPatientComponent implements OnInit {
       age: new FormControl(),
       dni: new FormControl(),
       insurance: new FormControl(),
-      specialties: new FormControl(),
+      specialties: this.fb.array([]),
       approved: new FormControl()
+    });
+  }
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      email: ['', Validators.pattern('^[^@]+@[^@]+.[a-zA-Z]{2,}$')],
+      password: ['', [Validators.minLength(6), Validators.maxLength(20)]],
+      rePassword: ['', [Validators.minLength(6), Validators.maxLength(20)]],
+      name: ['', [Validators.minLength(6), Validators.maxLength(20)]],
+      lastName: ['', [Validators.minLength(6), Validators.maxLength(20)]],
+      age: ['', [Validators.max(120), Validators.min(18)]],
+      dni: ['', [Validators.minLength(8), Validators.maxLength(8)]],
+      insurance: [''],
+      specialties: [''],    
+      approved: true,
     });
   }
 
@@ -46,16 +61,16 @@ export class RegisterPatientComponent implements OnInit {
     return this.form.get(value) as FormGroup;
   }
 
-  registerPatient() {
+  registerAdmin() {
     this.user = this.form.value;
     this.user.approved = true;
-    this.user.role = 'Patient';
+    this.user.role = 'Admin';
     this.spinnerService.show();
-    
-    if (this.patient.password === this.rePassword) {
+
+    if (this.admin.password === this.rePassword) {
       this.auth
           .register(this.user, this.file)
-          .then((res) => { })
+          .then((res) => {})
           .catch((e) => {
           this.toastr.error(e.message);
           this.toastr.error(e.message);
@@ -73,19 +88,4 @@ export class RegisterPatientComponent implements OnInit {
     this.file = $event.target.files;
     console.log(this.file);
   }
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      email: ['', Validators.pattern('^[^@]+@[^@]+.[a-zA-Z]{2,}$')],
-      password: ['', [Validators.minLength(6), Validators.maxLength(20)]],
-      rePassword: ['', [Validators.minLength(6), Validators.maxLength(20)]],
-      name: ['', [Validators.minLength(6), Validators.maxLength(20)]],
-      lastName: ['', [Validators.minLength(6), Validators.maxLength(20)]],
-      age: ['', [Validators.max(120), Validators.min(18)]],
-      dni: ['', [Validators.minLength(8), Validators.maxLength(8)]],
-      insurance: [''],
-      specialties: [''],
-      approved: true,
-    });
-  } 
 }

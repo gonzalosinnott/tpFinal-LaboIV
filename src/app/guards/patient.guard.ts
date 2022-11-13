@@ -24,8 +24,8 @@ export class PatientGuard implements CanActivate {
 
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.firestore.getUserRole(this.Auth.currentUser.uid).then
-        (role => {
+        var userStorage = JSON.parse(localStorage.getItem('userData'));
+        this.firestore.getUserRole(userStorage.uid).then        (role => {
           console.log(role);
           if (role == 'Patient') {
             this.router.navigate(['/patient']);

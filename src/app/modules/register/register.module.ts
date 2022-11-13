@@ -6,6 +6,7 @@ import { RegisterComponent } from './register.component';
 import { RegisterHomeComponent } from './register-home/register-home.component';
 import { RegisterDoctorComponent } from './register-doctor/register-doctor.component';
 import { RegisterPatientComponent } from './register-patient/register-patient.component';
+import { SharedModule } from 'src/app/components/common-module/common.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RegisterPatientComponent } from './register-patient/register-patient.co
     RegisterRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class RegisterModule { }

@@ -20,7 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
   exports: [
     CommonModuleComponent,
     NavbarComponent,
-    ProfileComponent
+    ProfileComponent, 
   ]
 })
 export class SharedModule { }

@@ -55,20 +55,16 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
+    this.spinnerService.show();
     return await signInWithEmailAndPassword(this.auth, email, password)
     .then(res => {
       if (res.user.emailVerified) {
-        var uid = this.auth.currentUser.uid
-        this.firestoreService.getUserData(uid).subscribe((user: any) => {
-          this.setLocalStorage();
-        });
+        this.setLocalStorage();
+        this.getUserRole(this.auth.currentUser.uid);
       } else {
         this.userCredential = res;
         this.router.navigate(['verification'])
       }
-    })
-    .then (() => {
-      this.getUserRole(this.auth.currentUser.uid);
     })
     .catch(error => {
       switch (error.code) {
@@ -80,10 +76,14 @@ export class AuthService {
         default:
           throw new Error(error.message);
       }
+    })
+    .finally(() => { 
+      this.spinnerService.hide();
     });
   }
 
   getUserRole(uid:any) {
+    this.spinnerService.show();
     new Promise((resolve, reject) => {
       this.firestoreService.getUserRole(uid).then((data) => {
         resolve(data);

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { Auth } from '@angular/fire/auth';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,18 +10,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProfileComponent implements OnInit {
 
-  userData: any;
-  displayName: any;
-  user:any;
+  userData:any;
 
-  constructor(public authService: AuthService,) {
+  constructor(public authService: AuthService,
+              private firestoreService: FirestoreService,) {
     
    }
 
   ngOnInit(): void {
-    this.userData = JSON.parse(localStorage.getItem('userData'));
-    this.displayName = this.userData[0].displayName;
-    this.user = this.userData[0];
+    var user = JSON.parse(localStorage.getItem('userData'));
+    this.firestoreService.getUserData(user.uid).subscribe((user: any) => {
+      console.log(user[0]);
+      this.userData = user[0];
+    });
   }
-
 }

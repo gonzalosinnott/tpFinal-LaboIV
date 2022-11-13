@@ -1,15 +1,29 @@
 <h1>PERFIL</h1>
 <hr>
-<div *ngIf="authService.userData as user">
+<div *ngIf="this.userData as user">
 
 <div class="row align-items-md-stretch">
-    <div class="col-md-2">
+    <div class="col-md-3">
         <img class="img-thumbnail img-fluid" src="{{(user.photoURL) ? user.photoURL : '/assets/common/profile-user.png'}}"
             alt="{{user.displayName}}">
     </div>
-    <div class="col-md-6 info">
+    <div class="col-md-9 info">
         <p>Usuario: <strong>{{(user.displayName)}}</strong></p>
         <p>Email: <strong>{{user.email}}</strong></p>
+        <div *ngIf="user.role == 'Patient'">
+            <p>Obra Social: <strong>{{(user.insurance)}}</strong></p>
+        </div>   
+        <div *ngIf="user.role == 'Doctor'">
+            <p>Especialidades:</p>                 
+            <div *ngFor="let specialty of user.specialties; let i=index"> 
+                <ul>
+                    <li>{{specialty}}</li>
+                </ul>    
+            </div>
+        </div>   
+        <div *ngIf="user.role == 'Admin'">
+
+        </div>   
     </div>
 </div>
 </div>

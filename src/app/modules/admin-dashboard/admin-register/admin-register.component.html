@@ -1,9 +1,12 @@
+
+<br><br><br>
+
 <div class="container">
     <div class="p-2 mb-2 bg-light border rounded-3" style="width: 100%">
         <div class="container-fluid py-1">
             <div>
                 <br>
-                <h1 style="text-align: center;">REGISTRO PACIENTE</h1>
+                <h1 style="text-align: center;">REGISTRO ADMINISTRADOR</h1>
                 <hr>
                 <div class="row align-items-md-stretch">
 
@@ -15,86 +18,77 @@
                                     <div class="form-group">
                                         <label style="float: left">Nombre</label>
                                         <input class="form-control" formControlName="name" type="name"
-                                            placeholder="Ingrese su nombre" [(ngModel)]="patient.name" required>
+                                            placeholder="Ingrese su nombre" [(ngModel)]="admin.name" required>
                                         <div class="errorMessage"
                                             *ngIf="getValue('name')?.invalid && (getValue('name').touched || getValue('name').dirty)">
                                             Ingrese un nombre válido</div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6">
 
+                                <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label style="float: left">Apellido</label>
                                         <input class="form-control" formControlName="lastName" type="apellido"
-                                            placeholder="Ingrese su apellido" [(ngModel)]="patient.lastName" required>
+                                            placeholder="Ingrese su apellido" [(ngModel)]="admin.lastName" required>
                                         <div class="errorMessage"
                                             *ngIf="getValue('lastName')?.invalid && (getValue('lastName').touched || getValue('lastName').dirty)">
                                             Ingrese un apellido válido</div>
                                     </div>
                                 </div>
                             </div>
+
                             <br>
+
                             <div class="row align-items-md-stretch">
                                 <div class="form-group col-md-9">
-
                                     <div class="form-group">
                                         <label style="float: left">DNI</label>
                                         <input class="form-control" formControlName="dni" type="dni"
-                                            placeholder="Ingrese su DNI" [(ngModel)]="patient.dni" required>
+                                            placeholder="Ingrese su DNI" [(ngModel)]="admin.dni" required>
                                         <div class="errorMessage"
                                             *ngIf="getValue('dni')?.invalid && (getValue('dni').touched || getValue('dni').dirty)">
                                             Ingrese un DNI válido</div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
 
+                                <div class="form-group col-md-3">
                                     <div class="form-group">
                                         <label style="float: left">Edad</label>
                                         <input class="form-control" formControlName="age" type="age"
-                                            placeholder="Ingrese su edad" [(ngModel)]="patient.age" required>
+                                            placeholder="Ingrese su edad" [(ngModel)]="admin.age" required>
                                         <div class="errorMessage"
                                             *ngIf="getValue('age')?.invalid && (getValue('age').touched || getValue('age').dirty)">
                                             Ingrese una edad válida (18-120)</div>
                                     </div>
                                 </div>
-                            </div>
-                            <br>
+                            </div>                          
 
-                            <div class="form-group col-md-12">
-
-                                <div class="form-group">
-                                    <label style="float: left">Obra Social</label>
-                                    <input class="form-control" formControlName="insurance" type="insurance"
-                                        placeholder="Ingrese su obra social" [(ngModel)]="patient.insurance" required>
-                                    <div class="errorMessage"
-                                        *ngIf="getValue('insurance')?.invalid && (getValue('insurance').touched || getValue('insurance').dirty)">
-                                        Ingrese una obra social válida</div>
-                                </div>
-                            </div>
                             <hr>
-                            <div class="form-group col-md-8">
 
+                            <div class="form-group col-md-8">
                                 <div class="form-group">
                                     <label style="float: left">Email</label>
                                     <input class="form-control" formControlName="email" type="email"
-                                        placeholder="Ingrese su email" [(ngModel)]="patient.email" required>
+                                        placeholder="Ingrese su email" [(ngModel)]="admin.email" required>
                                     <div class="errorMessage"
                                         *ngIf="getValue('email')?.invalid && (getValue('email').touched || getValue('email').dirty)">
                                         Ingrese un mail válido</div>
                                 </div>
+
                                 <br>
 
                                 <div class="form-group">
                                     <label style="float: left">Contraseña</label>
                                     <input autocomplete="new-password" #password class="form-control"
                                         formControlName="password" type="password" placeholder="Ingrese su contraseña"
-                                        [(ngModel)]="patient.password" required>
+                                        [(ngModel)]="admin.password" required>
                                     <div class="errorMessage"
                                         *ngIf="getValue('password')?.invalid && (getValue('password').touched || getValue('password').dirty)">
                                         Mínimo 6 caracteres</div>
-
                                 </div>
+
                                 <br>
+                                
                                 <div class="form-group">
                                     <label style="float: left">Repita la contraseña</label>
                                     <input autocomplete="new-password" #password class="form-control"
@@ -105,6 +99,7 @@
                                         Mínimo 6 caracteres</div>
                                 </div>
                             </div>
+                            
                             <hr>
 
                             <div class="container-input-file">
@@ -115,16 +110,18 @@
                             </div>
 
                             <hr>
+
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary form-control" (click)="registerPatient()"
+                                <button class="btn btn-primary form-control" (click)="registerAdmin()"
                                     [disabled]="!form.valid">Registrar</button>
                                 <button class="btn btn-info form-control" routerLink="/register">Volver</button>
                             </div>
                         </form>
                     </div>
-                    
+
+
                     <div class="col-md-6" style="text-align: center;">
-                        <img src='/assets/logos/patient.png' class="img-responsive" style="width: 80%;">
+                        <img src='/assets/logos/admin.png' class="img-responsive" style="width: 80%;">
                     </div>
                 </div>
 

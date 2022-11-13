@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
-  selector: 'app-verification',
+  selector: 'app-verificationn',
   templateUrl: './verification.component.html',
   styleUrls: ['./verification.component.css'],
   providers: [AuthService]

@@ -1,16 +1,29 @@
-<div class="container">
-
-    <div class="row align-items-md-stretch">
-
-        <div class="col-md-8">
-            <div class="h-100 p-5 text-bg-dark rounded-3">
-                <app-profile></app-profile>
-            </div>
-        </div>
-
-        <div class="col-md-4 ">
-            <div class="h-100 p-5 bg-light border rounded-3">
+<div *ngIf="this.approved == false; else elseBlock">
+    <div class="container">
+        <div class="col-md-12 ">
+            <div class="h-100 p-5 bg-light border rounded-3 text-center">
+                <h1>SU USUARIO NO A SIDO APROBADO AUN. CONTACTE CON EL ADMINISTRADOR</h1>
             </div>
         </div>
     </div>
 </div>
+
+
+<ng-template #elseBlock>
+    <div class="container">
+        <div class="row align-items-md-stretch">
+
+            <div class="col-md-8">
+                <div class="h-100 p-5 text-bg-dark rounded-3">
+                    <app-profile></app-profile>
+                </div>
+            </div>
+
+            <div class="col-md-4 ">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

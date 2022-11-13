@@ -30,17 +30,16 @@ export class LoginComponent implements OnInit {
   }
 
   ingresar(user: User) {
-    this.spinnerService.show();   
+    this.spinnerService.show();
     this.auth.login(user.email, user.password).then(res => { 
     })
     .catch(e => { this.toastr.error(e.message) })
-    .finally(() => { 
+    .finally(() => {
+      this.spinnerService.hide(); 
     });
   }
   
   ngOnInit(): void {
-    sessionStorage.clear();
-    localStorage.clear();
     this.form = this.fb.group({
       email: ['', Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$")],
       password: ['', [Validators.minLength(6), Validators.maxLength(20)]]
@@ -48,47 +47,48 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.spinnerService.show();
     this.ingresar(this.form.value);
   }
 
   fillFormPatient1() : void {
     this.form = this.fb.group({
-      email: ['patient@mail.com'],
+      email: ['78d2bdafce@inboxmail.life'],
       password: ['123456'],
     });
   }
 
   fillFormPatient2() : void {
     this.form = this.fb.group({
-      email: ['patient2@mail.com'],
+      email: ['8ab4d5d3db@inboxmail.life'],
       password: ['123456'],
     });
   }
 
   fillFormPatient3() : void {
     this.form = this.fb.group({
-      email: ['patient3@mail.com'],
+      email: ['c0793610b3@inboxmail.life'],
       password: ['123456'],
     });
   }
 
   fillFormDoctor1() : void {
     this.form = this.fb.group({
-      email: ['doctor1@mail.com'],
+      email: ['9c5ec15f0d@inboxmail.life'],
       password: ['123456'],
     });
   }
 
   fillFormDoctor2() : void {
     this.form = this.fb.group({
-      email: ['doctor2@mail.com'],
+      email: ['649393bf2f@inboxmail.life'],
       password: ['123456'],
     });
   }
 
   fillFormAdmin() : void {
     this.form = this.fb.group({
-      email: ['gonzalo.sinnott@gmail.com'],
+      email: ['9d27924836@inboxmail.life'],
       password: ['123456'],
     });
   }
