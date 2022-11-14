@@ -1,10 +1,26 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" routerLink="./">PANEL {{userType}}</a>
+    <a class="navbar-brand" routerLink="./">Dashboard {{user | userType}}</a>
     <div class="collapse navbar-collapse d-flex" id="navbarNavAltMarkup">
         <div class="navbar-nav p-2" >
-            <ul class="navbar-nav">
-                <li class="nav-item" *ngIf="userType == 'ADMINISTRADOR'">
-                  <a class="nav-link active" aria-current="page" routerLink="register">ALTA ADMINISTRADOR</a>
+
+            <ul class="navbar-nav mr-auto" *ngIf="user == 'Admin'">
+                <li class="nav-item" >
+                    <a class="nav-link active" aria-current="page" routerLink="register">ALTA ADMINISTRADOR</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link active" aria-current="page" routerLink="request-appointment">SACAR TURNO</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav mr-auto" *ngIf="user == 'Patient'">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="request-appointment">SACAR TURNO</a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav mr-auto" *ngIf="user == 'Doctor'">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page"></a>
                 </li>
             </ul>
         </div>

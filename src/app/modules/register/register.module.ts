@@ -13,14 +13,14 @@ import { SharedModule } from 'src/app/components/common-module/common.module';
     RegisterComponent,
     RegisterHomeComponent,
     RegisterDoctorComponent,
-    RegisterPatientComponent,
+    RegisterPatientComponent
   ],
   imports: [
     CommonModule,
     RegisterRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class RegisterModule { }

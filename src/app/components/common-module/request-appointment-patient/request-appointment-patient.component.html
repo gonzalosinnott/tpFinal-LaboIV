@@ -1,0 +1,20 @@
+<h1 class="text-center">PACIENTE</h1>
+<hr>
+<div *ngIf="patients?.length > 0; else elseBlock">
+    <div *ngFor="let patient  of patients; let i=index">
+        <input type="radio" name="patient" class="btn-check" id={{patient.displayName}} autocomplete="off"
+            [value]="patient.uid" (click)="selectPatient($event)" />
+
+        <label class="btn btn-outline-primary" for={{patient.displayName}}>
+            <div class="d-flex align-items-center justify-content-between">
+                {{patient.displayName}}
+                <img class="img-fluid"
+                    src="{{(patient.photoURL) ? patient.photoURL : '/assets/common/profile-user.png'}}"
+                    alt="{{patient.displayName}}" style="width: 30%">
+            </div>
+        </label>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <label class="btn btn-outline-danger">NO EXISTEN PACIENTES CARGADOS EN EL SISTEMA</label>
+</ng-template>

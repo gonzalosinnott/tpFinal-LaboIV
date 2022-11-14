@@ -1,26 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Auth } from '@angular/fire/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  selector: 'app-request-appointment',
+  templateUrl: './request-appointment.component.html',
+  styleUrls: ['./request-appointment.component.css']
 })
-export class NavbarComponent implements OnInit {
-  
-  user: any;
+export class RequestAppointmentComponent implements OnInit {
 
-  constructor(
-    private authService: AuthService,
+  user: any;
+  specialty:any;
+  doctor:any;
+  patient: any;
+
+  constructor(private authService: AuthService,
     private router: Router,
     private readonly Auth: Auth,
     public afAuth: AngularFireAuth,
-    private readonly firestore: FirestoreService
-  ) {}
+    private readonly firestore: FirestoreService) { }
 
   ngOnInit(): void {
     this.setUserType();
@@ -37,11 +39,15 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  logout() {
-    sessionStorage.clear();
-    this.authService
-      .logout()
-      .then(() => this.router.navigate(['/']))
-      .catch((e) => console.log(e.message));
-  }
+  selectedSpecialty(code: string) {      
+    this.specialty = code;
+  } 
+
+  selectedDoctor(code: string) {      
+    this.doctor = code;
+  } 
+
+  selectedPatient(code: string) {      
+    this.patient = code;
+  } 
 }

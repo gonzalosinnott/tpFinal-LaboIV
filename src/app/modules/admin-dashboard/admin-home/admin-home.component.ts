@@ -17,10 +17,10 @@ export class AdminHomeComponent implements OnInit {
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.getUserData();
+    this.getUsersData();
   }
 
-  getUserData() {
+  getUsersData() {
     this.spinnerService.show();
     this.firestoreService.getAllUsers().subscribe((users: any) => {
       console.log(users)
@@ -32,7 +32,7 @@ export class AdminHomeComponent implements OnInit {
   disableUser(uid: any) {
     this.spinnerService.show();
     this.firestoreService.disableUser(uid).then(() => {
-      this.getUserData();
+      this.getUsersData();
       this.spinnerService.hide();
       this.toastr.success('Usuario deshabilitado correctamente');
     });
@@ -41,7 +41,7 @@ export class AdminHomeComponent implements OnInit {
   enableUser(uid: any) {
     this.spinnerService.show();
     this.firestoreService.enableUser(uid).then(() => {
-      this.getUserData();
+      this.getUsersData();
       this.spinnerService.hide();
       this.toastr.success('Usuario habilitado correctamente');
     });

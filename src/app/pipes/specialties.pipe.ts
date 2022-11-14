@@ -14,7 +14,7 @@ export class SpecialtiesPipe implements PipeTransform {
     }
 
     if(specialty == "dentist") {
-      specialty = "Dentista";
+      specialty = "Odontologia";
     }
 
     if(specialty == "gastroenterology") {

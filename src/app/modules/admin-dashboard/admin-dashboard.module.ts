@@ -7,6 +7,7 @@ import { AdminDashboardComponent } from './admin-dashboard.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { SharedModule } from 'src/app/components/common-module/common.module';
 import { AdminRegisterComponent } from './admin-register/admin-register.component';
+import { AdminRequestAppointmentComponent } from './admin-request-appointment/admin-request-appointment.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { AdminRegisterComponent } from './admin-register/admin-register.componen
     AdminDashboardComponent,
     AdminHomeComponent,
     AdminRegisterComponent,
+    AdminRequestAppointmentComponent,
   ],
   imports: [
     CommonModule,

@@ -22,23 +22,9 @@ export class RegisterDoctorComponent implements OnInit {
   user = new User();
   doctor = new Doctor();
   rePassword: string = '';
-  extraSpecialty: string = '';
   specialties: any[] = [];
-
-  specialtiesList: Array<any> = [
-    { name: 'Cardiologia', value: 'cardiology' },
-    { name: 'Dentista', value: 'dentist' },
-    { name: 'Gastroenterologia', value: 'gastroenterology' },
-    { name: 'Neurologia', value: 'neurology' },
-    { name: 'Obstetricia', value: 'obstetrics' },
-    { name: 'Oftalmologia', value: 'oftalmology' },
-    { name: 'Neumonologia', value: 'pulmonology' },
-    { name: 'Radiologia', value: 'radiology' },
-    { name: 'Cirugia', value: 'surgery' },
-    { name: 'Urologia', value: 'urology' },
-    { name: 'Traumatologia', value: 'traumatology'},
-    { name: 'Otorrinonaringologia', value: 'otorhinolaryngology' }
-  ];
+  public extraSpecialty = new FormControl('');
+  specialtiesList: any;
 
   constructor(private fb: FormBuilder,
               private toastr: ToastrService,
@@ -56,7 +42,6 @@ export class RegisterDoctorComponent implements OnInit {
       dni: new FormControl(),
       insurance: new FormControl(),
       specialties: this.fb.array([]),
-      extraSpecialty: new FormControl(),
       approved: new FormControl()
     });
   }
@@ -75,15 +60,42 @@ export class RegisterDoctorComponent implements OnInit {
       extraSpecialty: [''],
       approved: false,
     });
+
+    this.getSpecialties();
   }
 
   getValue(value: string): AbstractControl {
     return this.form.get(value) as FormGroup;
   }
 
+  getSpecialties() {
+    this.spinnerService.show();
+    this.firestore.getSpecialties().subscribe((data:any) => {
+      this.specialtiesList = data[0].specialties;
+      this.spinnerService.hide();
+    });
+  }
+
+  addSpecialty() {
+    if (this.extraSpecialty.value !== '') {
+      this.spinnerService.show();
+      this.specialtiesList.push(this.extraSpecialty.value);
+
+      this.firestore.updateSpecialties(this.specialtiesList).then(() => {
+        this.toastr.success('Especialidad agregada con éxito');
+      })
+      .catch((e) => {
+        this.toastr.error('Error al agregar especialidad');
+      })
+      .finally(() => {
+        this.spinnerService.hide();
+      });
+      this.extraSpecialty.setValue('');
+    }
+  }
+
   registerDoctor() {
     this.user = this.form.value;
-    this.specialties.push(this.form.value.extraSpecialty);
     this.user.specialties = this.specialties;
     this.user.approved = false;
     this.user.role = 'Doctor';

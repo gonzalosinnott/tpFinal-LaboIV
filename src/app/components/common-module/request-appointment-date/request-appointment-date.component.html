@@ -1,0 +1,38 @@
+<h1 class="text-center">TURNO</h1>
+<hr>
+<div *ngIf="appointments?.length > 0; else elseBlock">
+    <div *ngFor="let appointment  of appointments; let i=index">
+        <input type="radio" name="appointment" class="btn-check" id={{appointment}} autocomplete="off"
+            [value]="appointment"  (click)="selectApointment($event)" />
+
+        <label class="btn btn-outline-primary" for={{appointment}} data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="d-flex align-items-center justify-content-between">
+                {{appointment}}                
+            </div>
+        </label>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <label class="btn btn-outline-danger">NO EXISTEN TURNOS CON LOS CRITERIOS INGRESADOS</label>
+</ng-template>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>CONFIRMACION DE TURNO</h1>
+                <p> PROFESIONAL:  {{doctorName}}</p>
+                <p> ESPECIALIDAD: {{specialty | specialties}}</p>
+                <p> FECHA Y HORA: {{selectedDate | uppercase}}</p>
+                <p> PACIENTE: {{patientName}}</p>        
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="createAppointment()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

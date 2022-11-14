@@ -44,8 +44,7 @@ export class PatientGuard implements CanActivate {
             this.router.navigate(['/doctor']);
             this.spinnerService.hide();
             this.toastr.error("Acceso denegado. No tiene permisos para acceder a esta página.");
-            return false;
-     
+            return false;     
           }
     
           this.spinnerService.hide();
