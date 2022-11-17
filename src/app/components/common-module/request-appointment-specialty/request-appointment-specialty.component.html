@@ -6,8 +6,7 @@
             (click)="selectSpecialty($event)" />
 
         <label class="btn btn-outline-primary" for={{specialty}}>
-            <div class="d-flex align-items-center justify-content-between">
-                {{specialty | specialties}}
+            <div class="d-flex align-items-center justify-content-center">
                 <img class="img-fluid" src='/assets/specialties/{{specialty}}.png'
                     onerror="this.onerror=null;this.src='/assets/common/logo.png';" alt="{{specialty}}"
                     style="width: 30%">

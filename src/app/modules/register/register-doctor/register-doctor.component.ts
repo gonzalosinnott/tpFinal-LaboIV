@@ -25,6 +25,9 @@ export class RegisterDoctorComponent implements OnInit {
   specialties: any[] = [];
   public extraSpecialty = new FormControl('');
   specialtiesList: any;
+  captcha: any = []
+  public enteredCaptcha = new FormControl('');
+
 
   constructor(private fb: FormBuilder,
               private toastr: ToastrService,
@@ -59,8 +62,9 @@ export class RegisterDoctorComponent implements OnInit {
       specialties: [''],
       extraSpecialty: [''],
       approved: false,
+      enteredCaptcha: [''],
     });
-
+    this.createCaptcha();
     this.getSpecialties();
   }
 
@@ -101,21 +105,26 @@ export class RegisterDoctorComponent implements OnInit {
     this.user.role = 'Doctor';
     this.spinnerService.show();
 
-    if (this.doctor.password === this.rePassword) {
-      this.auth
-          .register(this.user, this.file)
-          .then((res) => {})
-          .catch((e) => {
-          this.toastr.error(e.message);
-          this.toastr.error(e.message);
-        })
-        .finally(() => {
-          this.spinnerService.hide();
-        });
-    } else {
-      this.spinnerService.hide();
-      this.toastr.error('Las contraseñas no coinciden');
+    if (this.enteredCaptcha.value != this.captcha) {
+      this.toastr.error('Captcha incorrecto', 'Error');
+      return;
     }
+
+    if (this.user.password != this.rePassword) {
+      this.toastr.error('Las contraseñas no coinciden', 'Error');
+      return;
+    }
+
+    this.auth
+        .register(this.user, this.file)
+        .then((res) => {})
+        .catch((e) => {
+        this.toastr.error(e.message);
+        this.toastr.error(e.message);
+      })
+      .finally(() => {
+        this.spinnerService.hide();
+      });
   }
 
   uploadImage($event: any) {
@@ -130,4 +139,19 @@ export class RegisterDoctorComponent implements OnInit {
       this.specialties = this.specialties.filter((item) => item !== event.target.value);
     }
   }
+
+  createCaptcha() {
+    const activeCaptcha = document.getElementById("captcha");
+    let captcha = []
+    for (let q = 0; q < 6; q++) {
+      if (q % 2 == 0) {
+        captcha[q] = String.fromCharCode(Math.floor(Math.random() * 26 + 65));
+      } else {
+        captcha[q] = Math.floor(Math.random() * 10 + 0);
+      }
+    }
+    const theCaptcha = captcha.join("");
+    this.captcha = theCaptcha;
+    activeCaptcha!.innerHTML = `${theCaptcha}`;
+  } 
 }

@@ -113,7 +113,20 @@
                                         (change)="uploadImage($event)" placeholder="Ingrese su imagen">
                                 </div>
                             </div>
-
+                            <br>
+                            <div class="row align-items-center">
+                                <div class="form-group col-md-3">                               
+                                    <div id="captcha" class="captcha"></div>
+                                </div>
+                                    <div class="form-group col-md-3">
+                                    <button class="btn rounded btn-primary" type="button" (click)="createCaptcha()">Cambiar</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="input">
+                                <input type="text" class="form-control"
+                                placeholder="Ingrese motivo de la cancelacion" [formControl]="enteredCaptcha">
+                            </div>
                             <hr>
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-primary form-control" (click)="registerPatient()"
