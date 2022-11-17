@@ -47,3 +47,7 @@ El paciente elige el turno que quiere basandose en la especialidad, profesional 
 ###### NAVEGACION:
 
 Se cuenta con una pagina de error 404 para direcciones inexistentes y guards para prohibir el acceso a rutas que no correspondan a cada uno de los roles
+
+## SPRINTS
+
+Requerimientos por sprint y su estado
