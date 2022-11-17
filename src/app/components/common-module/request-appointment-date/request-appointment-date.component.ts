@@ -1,10 +1,13 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { Auth } from '@angular/fire/auth';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-request-appointment-date',
@@ -17,7 +20,9 @@ export class RequestAppointmentDateComponent implements OnInit {
   @Input() specialty = '';
   doctorAvailability: any[] = [];
   selectedDate: any;
-  appointments: any;
+  appointments: any[] = [];
+  user: any;
+  userData: any;
   doctorName: any;
   patientName: any;
 
@@ -28,13 +33,23 @@ export class RequestAppointmentDateComponent implements OnInit {
     public firestore: FirestoreService,
     public storage: StorageService,
     private router: Router,
-  ) {}
+    private readonly Auth: Auth,
+    public afAuth: AngularFireAuth) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('userData'));
+    this.getUserData();
+  }
+
+  getUserData() {
+    this.firestore.getUserData(this.user.uid).subscribe((user: any) => {
+      this.userData = user[0];
+    });
+  } 
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if(changes['specialty'] !== undefined) {
+   if(changes['specialty'] !== undefined) {
       this.specialty=changes['specialty'].currentValue;
       this.doctor = '';
     }
@@ -51,12 +66,18 @@ export class RequestAppointmentDateComponent implements OnInit {
       this.patient=changes['selectedDate'].currentValue;
     }
     
-    this.appointments = '';
+    if(this.userData.role == "Patient") 
+    {
+      this.patient = this.user.uid;
+    }
+
+    this.appointments = [];
     this.spinnerService.show();
     this.firestore.getDoctorAvailableHours(this.doctor)
     .then((data) => { this.doctorAvailability = data; })
     .then(() => { this.generateDaysData(this.doctorAvailability); })
     .then(() => { this.checkDoctorAvailability(this.doctor) })
+    .then(() => { })
     .then(() => { this.checkPatientAvailability(this.patient) })
     .then(() => { this.firestore.getUserData(this.doctor).subscribe((user: any) => {
                       this.doctorName= user[0].displayName;});
@@ -123,11 +144,10 @@ export class RequestAppointmentDateComponent implements OnInit {
     date.setDate(date.getDate() + daysToAdd);
     for (let i = 0; i < 2; i++) {
       for(let j = 0; j < hours.length; j++) {
-        dates.push(new Date(date).toLocaleDateString('es-es', { weekday:"long", month:"numeric", day:"numeric"}) + ' ' + hours[j]);
+        this.appointments.push(new Date(date).toLocaleDateString('es-es', { month:"numeric", day:"numeric"}) + ' ' + hours[j]);
       }
       date.setDate(date.getDate() + 7);
     }
-    this.appointments = dates;
   }
 
   getDayOfWeekNumber(day: any) {
@@ -187,7 +207,8 @@ export class RequestAppointmentDateComponent implements OnInit {
     }
 
     this.spinnerService.show();
-    this.firestore.addAppointment(this.selectedDate, this.doctor, this.patient,  this.specialty)
+    
+    this.firestore.addAppointment(this.selectedDate, this.doctorName, this.patientName,  this.specialty)
     .then(() => { this.toastr.success('Cita creada', 'Éxito'); })
     .catch((error) => { this.toastr.error(error, 'Error'); })
     .finally(() => {  location.reload();

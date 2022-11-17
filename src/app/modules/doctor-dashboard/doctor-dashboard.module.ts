@@ -5,14 +5,19 @@ import { DoctorDashboardRoutingModule } from './doctor-dashboard-routing.module'
 import { DoctorDashboardComponent } from './doctor-dashboard.component';
 import { DoctorHomeComponent } from './doctor-home/doctor-home.component';
 import { SharedModule } from 'src/app/components/common-module/common.module';
+import { MyAppointmentsComponent } from './my-appointments/my-appointments.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     DoctorDashboardComponent,
     DoctorHomeComponent,
+    MyAppointmentsComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     DoctorDashboardRoutingModule,
     SharedModule
   ]

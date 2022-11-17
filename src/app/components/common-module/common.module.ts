@@ -6,14 +6,16 @@ import { CommonModuleComponent } from './common.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
-import { ServiceHoursPipe } from 'src/app/pipes/service-hours.pipe';
+import { ServiceHoursPipe } from 'src/app/pipes/serviceHours.pipe';
 import { SpecialtiesPipe } from 'src/app/pipes/specialties.pipe';
 import { RequestAppointmentComponent } from './request-appointment/request-appointment.component';
-import { UserTypePipe } from 'src/app/pipes/user-type.pipe';
+import { UserTypePipe } from 'src/app/pipes/userType.pipe';
 import { RequestAppointmentSpecialtyComponent } from './request-appointment-specialty/request-appointment-specialty.component';
 import { RequestAppointmentDoctorComponent } from './request-appointment-doctor/request-appointment-doctor.component';
 import { RequestAppointmentDateComponent } from './request-appointment-date/request-appointment-date.component';
 import { RequestAppointmentPatientComponent } from './request-appointment-patient/request-appointment-patient.component';
+import { AppointmentStatusPipe } from 'src/app/pipes/appointmentStatus.pipe';
+import { CaptchaComponent } from './captcha/captcha.component';
 
 
 @NgModule({
@@ -25,10 +27,12 @@ import { RequestAppointmentPatientComponent } from './request-appointment-patien
     ServiceHoursPipe,
     SpecialtiesPipe,
     UserTypePipe,
+    AppointmentStatusPipe,
     RequestAppointmentSpecialtyComponent,
     RequestAppointmentDoctorComponent,
     RequestAppointmentDateComponent,
-    RequestAppointmentPatientComponent
+    RequestAppointmentPatientComponent,
+    CaptchaComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,9 @@ import { RequestAppointmentPatientComponent } from './request-appointment-patien
     NavbarComponent,
     ProfileComponent,
     RequestAppointmentComponent,
+    CaptchaComponent,
     SpecialtiesPipe,
+    AppointmentStatusPipe,
   ]
 })
 export class SharedModule { }

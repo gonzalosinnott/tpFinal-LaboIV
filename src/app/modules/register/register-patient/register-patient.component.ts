@@ -21,6 +21,8 @@ export class RegisterPatientComponent implements OnInit {
   user = new User();
   patient = new Patient();
   rePassword: string = '';
+  captcha: any = []
+  public enteredCaptcha = new FormControl('');
 
   constructor(private fb: FormBuilder,
               private toastr: ToastrService,
@@ -38,7 +40,7 @@ export class RegisterPatientComponent implements OnInit {
       dni: new FormControl(),
       insurance: new FormControl(),
       specialties: new FormControl(),
-      approved: new FormControl()
+      approved: new FormControl(),
     });
   }
 
@@ -50,23 +52,29 @@ export class RegisterPatientComponent implements OnInit {
     this.user = this.form.value;
     this.user.approved = true;
     this.user.role = 'Patient';
-    this.spinnerService.show();
-    
-    if (this.patient.password === this.rePassword) {
-      this.auth
-          .register(this.user, this.file)
-          .then((res) => { })
-          .catch((e) => {
-          this.toastr.error(e.message);
-          this.toastr.error(e.message);
-        })
-        .finally(() => {
-          this.spinnerService.hide();
-        });
-    } else {
-      this.spinnerService.hide();
-      this.toastr.error('Las contraseñas no coinciden');
+    if (this.enteredCaptcha.value != this.captcha) {
+      this.toastr.error('Captcha incorrecto', 'Error');
+      return;
     }
+
+    if (this.user.password != this.rePassword) {
+      this.toastr.error('Las contraseñas no coinciden', 'Error');
+      return;
+    }
+
+    this.spinnerService.show();
+
+    this.auth
+        .register(this.user, this.file)
+        .then((res) => { })
+        .catch((e) => {
+        this.toastr.error(e.message);
+        this.toastr.error(e.message);
+      })
+      .finally(() => {
+        this.spinnerService.hide();
+      });
+   
   }
 
   uploadImage($event: any) {
@@ -85,7 +93,24 @@ export class RegisterPatientComponent implements OnInit {
       dni: ['', [Validators.minLength(8), Validators.maxLength(8)]],
       insurance: [''],
       specialties: [''],
-      approved: true,
+      approved: true,  
+      enteredCaptcha: [''],
     });
+    this.createCaptcha();
+  } 
+
+  createCaptcha() {
+    const activeCaptcha = document.getElementById("captcha");
+    let captcha = []
+    for (let q = 0; q < 6; q++) {
+      if (q % 2 == 0) {
+        captcha[q] = String.fromCharCode(Math.floor(Math.random() * 26 + 65));
+      } else {
+        captcha[q] = Math.floor(Math.random() * 10 + 0);
+      }
+    }
+    const theCaptcha = captcha.join("");
+    this.captcha = theCaptcha;
+    activeCaptcha!.innerHTML = `${theCaptcha}`;
   } 
 }
