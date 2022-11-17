@@ -45,7 +45,12 @@
 
                     <td class="align-middle" *ngIf="appointment.status == 'accepted'">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#closeAppointmentModal" (click)="openCloseAppointment(appointment.uid, 'closed' )">FINALIZAR</button>
+<<<<<<< HEAD
                     </td>                                       
+=======
+                    </td> 
+                                      
+>>>>>>> cb78804c04bbfd288e0fa343dd689c42ec0dcefe
 
                     <td class="align-middle" *ngIf="appointment.status == 'pending'">
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#cancelModal" (click)="openCancelOrRejectAppointment(appointment.uid, 'canceled')">CANCELAR</button>
