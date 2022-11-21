@@ -109,9 +109,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1>ESPECIALISTAS</h1>
-                <div *ngIf="patients?.length > 0; else elseBlock">
-                    <div *ngFor="let patient  of patients; let i=index">
+                <h1>PACIENTES</h1>
+                <div *ngIf="patientsBySpecialist?.length > 0; else elseBlock">
+                    <div *ngFor="let patient  of patientsBySpecialist; let i=index">
                         <input type="radio" name="patient" class="btn-check" id={{patient.displayName}} autocomplete="off"
                             [value]="patient.displayName" (click)="selectDoctor($event)"
                             data-bs-dismiss="modal"/>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <ng-template #elseBlock>
-                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALIDADES CARGADAS EN EL SISTEMA</label>
+                    <label class="btn btn-outline-danger">NO EXISTEN PACIENTES CON TURNOS</label>
                 </ng-template>
             </div>
             <div class="modal-footer">
@@ -183,21 +183,122 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1>DIAGNOSTICO</h1>
+                <h1 class="text-center">DIAGNOSTICO E HISTORIA CLINICA</h1>
                 <div class="form-group col-md-12">
-                        <input type="text" class="form-control" placeholder="Ingrese comentario"
-                            [formControl]="comment">
-  
-                            <input type="text" class="form-control" placeholder="Ingrese diagnostico"
-                            [formControl]="diagnostic">
+                
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <label for="diagnostic">ALTURA</label>
+                            <input type="number" class="form-control" placeholder="Ingrese altura en cm." [formControl]="height">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <label for="diagnostic">PESO</label>
+                            <input type="number" class="form-control" placeholder="Ingrese peso" [formControl]="weight">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <label for="diagnostic">TEMPERATURA</label>
+                            <input type="number" class="form-control" placeholder="Ingrese temperatura" [formControl]="temp">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <label for="diagnostic">PRESION</label>
+                            <input type="number" class="form-control" placeholder="Ingrese presion arterial" [formControl]="pressure">
+                        </div>
+                    </div>
+                    <br>
+                    <label for="diagnostic">INFORMACION EXTRA</label>
+                    <br>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Campo 1" [formControl]="field1Key">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Valor 1" [formControl]="field1Value">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Campo 2" [formControl]="field2Key">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Valor 2" [formControl]="field2Value">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Campo 3" [formControl]="field3Key">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Valor 3" [formControl]="field3Value">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Campo 4" [formControl]="field4Key">
+                        </div>
+                
+                        <div class="form-group col-md-6">                            
+                            <input type="range" #time (input)="time.value" id="time" min="0" max="10" step="0.5" style="width: 100%;" (click)="setField4Value($event)">
+                            <label for="time" class="text-center">({{ time.value }})</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Campo 5" [formControl]="field5Key">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <input type="number" class="form-control" placeholder="Valor 5" [formControl]="field5Value">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" placeholder="Campo 6" [formControl]="field6Key">
+                        </div>
+                
+                        <div class="form-group col-md-6">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" (change)="setField6Value($event)">
+                            </div>
+                        </div>
+                    </div>
+                    
 
-                        <button class="btn btn-outline-primary" type="button" (click)="closeAppointment()"
-                            data-bs-dismiss="modal">CONFIRMAR</button>
-
+                    <hr>
+               
+                    <input type="text" class="form-control" placeholder="Ingrese comentario" [formControl]="comment">
+                
+                    <br>
+                    <input type="text" class="form-control" placeholder="Ingrese diagnostico" [formControl]="diagnostic">                   
+                
                 </div>
+                <br>
                 <div class="modal-footer text-center">
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-6">
+                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal" (click)="closeAppointment()"
+                        >CONFIRMAR</button>
+                    </div>
+                    <div class="form-group col-md-6">
+
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </div>
+
+                </div>
+                </div>
         </div>
     </div>

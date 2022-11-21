@@ -137,7 +137,7 @@ export class AppointmentsComponent implements OnInit {
       }
       var reason = role + ' ' + this.userData.displayName + ': ' + this.cancelReason.value;
       this.firestore
-        .changeAppointmentStatus(this.appointmentUID, reason, this.appointmentStatus, '')
+        .changeAppointmentStatus(this.appointmentUID, reason, this.appointmentStatus, '', '')
         .then(() => {
           this.toastr.success('TURNO CANCELADO');
           this.spinnerService.hide();

@@ -36,7 +36,7 @@ export class AdminHomeComponent implements OnInit {
       this.spinnerService.hide();
       this.toastr.success('Usuario deshabilitado correctamente');
     });
-  }
+  }  
 
   enableUser(uid: any) {
     this.spinnerService.show();

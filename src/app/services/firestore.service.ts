@@ -153,15 +153,34 @@ export class FirestoreService {
       uid: date + '-' + doctor + '-' + patient + '-' + specialty,
       rating: 0,
     };
+
     return await this.afs.collection('appointments').add(newAppointment);
   }
+
+  async addMedicalHistory(
+    patient: any,
+    height: any,
+    weight: any,
+    temp: any,
+    pressure: any
+  ) {
+    let newAppointment: any = {
+      patient: patient,
+      height: height,
+      weight: weight,
+      temp: temp,
+      pressure: pressure,      
+    };
+    return await this.afs.collection('medical-history').doc(patient).set(newAppointment, {merge: true});
+  }  
+   
 
   getDoctorAvailableHours(uid: any) {
     var data;
     return firebase
       .firestore()
       .collection('users')
-      .where('uid', '==', uid )
+      .where('uid', '==', uid)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -209,7 +228,7 @@ export class FirestoreService {
         console.log('Error getting documents: ', error);
       });
   }
-  
+
   getAppointmentsBySpecialtyForPatient(specialty: any, patient: any) {
     const data: any[] = [];
     return firebase
@@ -305,7 +324,13 @@ export class FirestoreService {
       });
   }
 
-  changeAppointmentStatus(uid: any, reason:any, status: any, diagnosis: any) {
+  changeAppointmentStatus(
+    uid: any,
+    reason: any,
+    status: any,
+    diagnosis: any,
+    observations: any
+  ) {
     return firebase
       .firestore()
       .collection('appointments')
@@ -316,7 +341,8 @@ export class FirestoreService {
           doc.ref.update({
             status: status,
             appointmentInfo: reason,
-            diagnosis: diagnosis
+            diagnosis: diagnosis,
+            observations: observations,
           });
           console.log(doc.data()['approved']);
         });
@@ -335,7 +361,7 @@ export class FirestoreService {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           doc.ref.update({
-            rating: rate
+            rating: rate,
           });
           console.log(doc.data()['approved']);
         });
@@ -354,13 +380,54 @@ export class FirestoreService {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           doc.ref.update({
-            survey: survey
+            survey: survey,
           });
           console.log(doc.data()['approved']);
         });
       })
       .catch((error) => {
         console.log('Error updating document: ', error);
+      });
+  }
+
+  //MEDICAL HISTORY MANAGMENT
+  getMedicalHistoryByPatient(patient: any) {
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('medical-history')
+      .where('patient', '==', patient)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+  }
+
+  getMedicalHistoryBySpecialistAndPatient(specialist: any, patient: any) {
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('appointments')
+      .where('doctor', '==', specialist)
+      .where('patient', '==', patient)
+      .orderBy('date', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
       });
   }
 
@@ -423,14 +490,14 @@ export class FirestoreService {
       .catch((error) => {
         console.log('Error getting documents: ', error);
       });
-  }   
+  }
 
   getSpecialtiesByDoctor(uid: any) {
     var data;
     return firebase
       .firestore()
       .collection('users')
-      .where('uid', '==', uid )
+      .where('uid', '==', uid)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -458,7 +525,7 @@ export class FirestoreService {
       .catch((error) => {
         console.log('Error updating document: ', error);
       });
-  } 
+  }
 
   updateServiceHours(uid: any, hours: any) {
     return firebase

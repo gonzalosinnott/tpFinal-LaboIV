@@ -9,7 +9,6 @@ import { SpinnerService } from '../services/spinner.service';
 })
 export class UserNamePipe implements PipeTransform {
 
-  userName: any;
   constructor(public authService: AuthService,
               private firestoreService: FirestoreService,
               private spinnerService: SpinnerService,
@@ -17,25 +16,16 @@ export class UserNamePipe implements PipeTransform {
 
   transform(value: any) {
    
-    var userUID = value;
-
-    this.spinnerService.show();
-    new Promise((resolve, reject) => {
-      this.firestoreService.getUserDisplayName(userUID).then((data) => {
-        resolve(data);
-        console.log(data);
-      });
+    var userName;
+    
+    this.firestoreService.getUserDisplayName(value).then((data) => {
+      userName = data;
     })
-    .then((data) => {
-      this.userName = data;
-      return data;
-    })
+    .then(() => {
+      return userName;
+    })    
     .catch((e) => {
       this.toastr.error(e.message);
     })
-    .finally(() => {
-      this.spinnerService.hide();
-      return this.userName;
-    });
   }
 }

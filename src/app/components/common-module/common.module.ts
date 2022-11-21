@@ -16,6 +16,7 @@ import { RequestAppointmentDateComponent } from './request-appointment-date/requ
 import { RequestAppointmentPatientComponent } from './request-appointment-patient/request-appointment-patient.component';
 import { AppointmentStatusPipe } from 'src/app/pipes/appointmentStatus.pipe';
 import { CaptchaComponent } from './captcha/captcha.component';
+import { UserNamePipe } from 'src/app/pipes/userrName.pipe';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { CaptchaComponent } from './captcha/captcha.component';
     ServiceHoursPipe,
     SpecialtiesPipe,
     UserTypePipe,
+    UserNamePipe,
     AppointmentStatusPipe,
     RequestAppointmentSpecialtyComponent,
     RequestAppointmentDoctorComponent,
@@ -47,6 +49,7 @@ import { CaptchaComponent } from './captcha/captcha.component';
     CaptchaComponent,
     SpecialtiesPipe,
     AppointmentStatusPipe,
+    UserNamePipe
   ]
 })
 export class SharedModule { }

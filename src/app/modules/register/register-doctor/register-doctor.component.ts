@@ -103,7 +103,7 @@ export class RegisterDoctorComponent implements OnInit {
     this.user.specialties = this.specialties;
     this.user.approved = false;
     this.user.role = 'Doctor';
-    this.spinnerService.show();
+    
 
     if (this.enteredCaptcha.value != this.captcha) {
       this.toastr.error('Captcha incorrecto', 'Error');
@@ -115,6 +115,7 @@ export class RegisterDoctorComponent implements OnInit {
       return;
     }
 
+    this.spinnerService.show();
     this.auth
         .register(this.user, this.file)
         .then((res) => {})

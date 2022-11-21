@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="p-2 mb-2 bg-light border rounded-3" style="width: 100%">
+        <div *ngIf="patientsBySpecialist?.length > 0; else elseBlock">
+            <div class="row card-group">
+                <div  class="col-4" *ngFor="let patient  of patientsBySpecialist; let i=index">
+                        <div class="card" style="width: 100%;">
+                            <img class="mx-auto"
+                                src="{{(patient.photoURL) ? patient.photoURL : '/assets/common/profile-user.png'}}"
+                                alt="{{patient.displayName}}"
+                                style="width: 50%;">
+                            <div class="card-body">
+                                <h3 class="card-title">PACIENTE: {{patient.displayName}}</h3>
+                                <p class="card-text">OBRA SOCIAL: {{patient.insurance}}</p>
+                                <p class="card-text">EDAD: {{patient.age}}</p>
+                                <p class="text-left">ULTIMOS TURNOS:</p>
+                                <ul>
+                                    <li >{{patient.appointmentDates[0]}}</li>
+                                    <li >{{patient.appointmentDates[1]}}</li>
+                                    <li >{{patient.appointmentDates[2]}}</li>
+                                </ul>
+                                <br>
+                                <a class="btn btn-primary" (click)="download(patient.displayName)">DESCARGAR HISTORIA CLINICA</a>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+        <ng-template #elseBlock>
+            <label class="btn btn-outline-danger">NO EXISTEN PACIENTES CON TURNOS</label>
+        </ng-template>
+    </div>
+
+
+
+</div>
