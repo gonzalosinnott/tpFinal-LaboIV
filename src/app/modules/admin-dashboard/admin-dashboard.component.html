@@ -1,2 +1,12 @@
 <app-navbar></app-navbar>
-<router-outlet></router-outlet>
+
+<div
+  [@admin]="getState(o)"
+  [@register-admin]="getState(o)"
+  [@request-appointment-admin]="getState(o)"
+  [@appointments]="getState(o)"
+  [@users]="getState(o)"
+  [@reports]="getState(o)"
+>
+<router-outlet #o="outlet" > </router-outlet>
+</div>

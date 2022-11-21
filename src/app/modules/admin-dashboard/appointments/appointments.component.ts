@@ -45,8 +45,6 @@ export class AppointmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('userData'));
-    this.getSpecialties();
-    this.getSpecialists();
     this.getUserData();
     this.form = this.fb.group({
       cancelReason: ['', Validators.required],
@@ -55,15 +53,19 @@ export class AppointmentsComponent implements OnInit {
   }
 
   getUserData() {
-    this.firestore.getUserData(this.user.uid).subscribe((user: any) => {
-      console.log(user);
-      this.userData = user[0];
+    this.firestore.getUserData(this.user.uid)
+    .then((user: any) => {
+      this.userData = user;
+    })
+    .then(() => {
+      this.getSpecialties();
+      this.getSpecialists();
     });
   }
 
   getSpecialties() {
     this.spinnerService.show();
-    this.firestore.getSpecialties().subscribe((data: any) => {
+    this.firestore.getSpecialties().then((data: any) => {
       this.specialtiesList = data[0].specialties;
       this.spinnerService.hide();
     });
@@ -83,7 +85,6 @@ export class AppointmentsComponent implements OnInit {
       .getAppointmentsBySpecialty(
         this.selectedSpecialty)
       .then((data) => {
-        console.log(data);
         this.appointments = data;
         this.spinnerService.hide();
       });
@@ -95,7 +96,6 @@ export class AppointmentsComponent implements OnInit {
       .getAppointmentsBySpecialist(
         this.selectedDoctor)
       .then((data) => {
-        console.log(data);
         this.appointments = data;
         this.spinnerService.hide();
       });

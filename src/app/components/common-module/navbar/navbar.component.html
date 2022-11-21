@@ -5,19 +5,25 @@
 
             <ul class="navbar-nav mr-auto" *ngIf="user == 'Admin'">
                 <li class="nav-item" >
-                    <a class="nav-link active" aria-current="page" routerLink="register">ALTA ADMINISTRADOR</a>
+                    <a class="nav-link active" aria-current="page" routerLink="register-admin">ALTA ADMINISTRADOR</a>
                 </li>
                 <li class="nav-item" >
-                    <a class="nav-link active" aria-current="page" routerLink="request-appointment">SACAR TURNO</a>
+                    <a class="nav-link active" aria-current="page" routerLink="request-appointment-admin">SACAR TURNO</a>
                 </li>
                 <li class="nav-item" >
                     <a class="nav-link active" aria-current="page" routerLink="appointments">VER TURNOS</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link active" aria-current="page" routerLink="users">VER USUARIOS</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link active" aria-current="page" routerLink="reports">INFORMES</a>
                 </li>
             </ul>
 
             <ul class="navbar-nav mr-auto" *ngIf="user == 'Patient'">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="request-appointment">SACAR TURNO</a>
+                    <a class="nav-link active" aria-current="page" routerLink="request-appointment-patient">SACAR TURNO</a>
                 </li>
             </ul>
             

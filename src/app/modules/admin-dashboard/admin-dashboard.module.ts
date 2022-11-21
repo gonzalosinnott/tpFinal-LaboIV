@@ -9,6 +9,9 @@ import { SharedModule } from 'src/app/components/common-module/common.module';
 import { AdminRegisterComponent } from './admin-register/admin-register.component';
 import { AdminRequestAppointmentComponent } from './admin-request-appointment/admin-request-appointment.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
+import { UsersComponent } from './users/users.component';
+import { ReportsComponent } from './reports/reports.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -18,13 +21,15 @@ import { AppointmentsComponent } from './appointments/appointments.component';
     AdminRegisterComponent,
     AdminRequestAppointmentComponent,
     AppointmentsComponent,
+    UsersComponent,
+    ReportsComponent,
   ],
   imports: [
     CommonModule,
     AdminDashboardRoutingModule,
     FormsModule,
     ReactiveFormsModule, 
-    SharedModule
+    SharedModule,
   ]
 })
 export class AdminDashboardModule { }

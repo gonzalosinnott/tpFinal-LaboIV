@@ -7,10 +7,10 @@ import { PatientsComponent } from './patients/patients.component';
 
 const routes: Routes = [
   { path: '', component: DoctorDashboardComponent,children:[
-    {path:'',component:DoctorHomeComponent},
-    {path:'patients',component:PatientsComponent}
+    {path:'',component:DoctorHomeComponent, data: {state:  'doctor'}},
+    {path:'patients',component:PatientsComponent, data: {state:  'patients'}}
   ]},
-  { path: '**', pathMatch: 'full', component: NotFoundComponent }
+  { path: '**', pathMatch: 'full', component: NotFoundComponent, data: {state:  'not-found'}}
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

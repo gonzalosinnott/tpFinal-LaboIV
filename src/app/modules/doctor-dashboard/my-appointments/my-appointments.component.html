@@ -66,7 +66,7 @@
     </div>
 </div>
 <ng-template #elseBlock>
-    <label class="btn btn-outline-danger">NO EXISTEN TURNOS PARA EL CRITERIO SEELCCIONADO</label>
+    <label class="btn btn-outline-danger">NO EXISTEN TURNOS PARA EL CRITERIO SELECCIONADO</label>
 </ng-template>
 
 
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1>ESPECIALIDADES</h1>
-                <div *ngIf="specialtiesList?.length > 0; else elseBlock">
+                <div *ngIf="specialtiesList?.length > 0; else elseBlockSpecialties">
                     <div *ngFor="let specialty  of specialtiesList; let i=index">
                         <input type="radio" name="specialty" class="btn-check" id={{specialty}} autocomplete="off"
                             [value]="specialty" (click)="selectSpecialty($event)" data-bs-dismiss="modal" />
@@ -93,8 +93,8 @@
                         </label>
                     </div>
                 </div>
-                <ng-template #elseBlock>
-                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALIDADES CARGADAS EN EL SISTEMA</label>
+                <ng-template #elseBlockSpecialties>
+                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALIDADES PARA LAS QUE USTED POSEA TURNO</label>
                 </ng-template>
             </div>
             <div class="modal-footer">
@@ -110,7 +110,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1>PACIENTES</h1>
-                <div *ngIf="patientsBySpecialist?.length > 0; else elseBlock">
+                <div *ngIf="patientsBySpecialist?.length > 0; else elseBlockPatients">
                     <div *ngFor="let patient  of patientsBySpecialist; let i=index">
                         <input type="radio" name="patient" class="btn-check" id={{patient.displayName}} autocomplete="off"
                             [value]="patient.displayName" (click)="selectDoctor($event)"
@@ -125,8 +125,8 @@
                         </label>
                     </div>
                 </div>
-                <ng-template #elseBlock>
-                    <label class="btn btn-outline-danger">NO EXISTEN PACIENTES CON TURNOS</label>
+                <ng-template #elseBlockPatients>
+                    <label class="btn btn-outline-danger">NO EXISTEN PACIENTES PARA LAS QUE USTED POSEA TURNO</label>
                 </ng-template>
             </div>
             <div class="modal-footer">
@@ -165,10 +165,16 @@
             <div class="modal-body text-left">
                 <h1>DETALLE DEL TURNO</h1>
                 <p>STATUS: {{appointmentStatus | appointmentStatus}}</p>
-                <p>{{appointmentInfo}}</p> 
+                <p>Comentario: {{appointmentInfo}}</p> 
                 <div *ngIf="appointmentDiagnostic != ''"> 
                     <p>DIAGNOSTICO: {{appointmentDiagnostic}}</p> 
-                </div>                            
+                </div>
+                <p>OBSERVACIONES:</p>
+                <ul>
+                    <li *ngFor="let info of appointmentAditionalInfo | keyvalue">
+                        {{info.key}}: {{info.value}}
+                    </li>
+                </ul>
             </div>
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>

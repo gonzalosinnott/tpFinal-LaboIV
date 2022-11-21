@@ -31,6 +31,7 @@ export class MyAppointmentsComponent implements OnInit {
   appointmentStatus: any;
   appointmentInfo: any;
   appointmentDiagnostic: any;
+  appointmentAditionalInfo: any;
   patientsBySpecialist: any = [];
 
   form: FormGroup;
@@ -66,8 +67,6 @@ export class MyAppointmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('userData'));
-    this.getSpecialties();
-    this.getPatients();
     this.getUserData();
     this.form = this.fb.group({
       cancelReason: ['', Validators.required],
@@ -91,9 +90,15 @@ export class MyAppointmentsComponent implements OnInit {
   }
 
   getUserData() {
-    this.firestore.getUserData(this.user.uid).subscribe((user: any) => {
-      this.userData = user[0];
+    this.firestore.getUserData(this.user.uid)
+    .then((user: any) => {
+      this.userData = user;
+    })
+    .then(() => {
+      this.getPatients();
+      this.getSpecialties();
     });
+
   }
 
   getSpecialties() {
@@ -109,7 +114,6 @@ export class MyAppointmentsComponent implements OnInit {
     this.firestore.getAllPatients()
     .then((data) => {
       this.patients = data;
-      this.spinnerService.hide();
     })
     .then(() => {
       this.firestore.getAppointmentsBySpecialist(this.userData.displayName)
@@ -127,13 +131,16 @@ export class MyAppointmentsComponent implements OnInit {
       .then(() => {
         this.patientsBySpecialist = this.removeDuplicates(this.patientsBySpecialist)
         });
+    })
+    .finally(() => {
+      this.spinnerService.hide();
     });  
   }
 
   removeDuplicates(arr: any) {
     return arr.filter((item,
         index) => arr.indexOf(item) === index);
-}
+  }
 
         
   getAppointmentsBySpecialty() {
@@ -382,6 +389,7 @@ export class MyAppointmentsComponent implements OnInit {
         this.appointmentDiagnostic = appointment[0].diagnosis;
         this.appointmentInfo = appointment[0].appointmentInfo;
         this.appointmentStatus = appointment[0].status;
+        this.appointmentAditionalInfo = appointment[0].observations;
         this.spinnerService.hide();
       });
   }

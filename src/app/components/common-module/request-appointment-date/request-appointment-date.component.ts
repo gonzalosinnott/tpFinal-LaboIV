@@ -42,8 +42,8 @@ export class RequestAppointmentDateComponent implements OnInit {
   }
 
   getUserData() {
-    this.firestore.getUserData(this.user.uid).subscribe((user: any) => {
-      this.userData = user[0];
+    this.firestore.getUserData(this.user.uid).then((user: any) => {
+      this.userData = user;
     });
   } 
 
@@ -79,11 +79,11 @@ export class RequestAppointmentDateComponent implements OnInit {
     .then(() => { this.checkDoctorAvailability(this.doctor) })
     .then(() => { })
     .then(() => { this.checkPatientAvailability(this.patient) })
-    .then(() => { this.firestore.getUserData(this.doctor).subscribe((user: any) => {
-                      this.doctorName= user[0].displayName;});
+    .then(() => { this.firestore.getUserData(this.doctor).then((user: any) => {
+                      this.doctorName= user.displayName;});
     })
-    .then(() => { this.firestore.getUserData(this.patient).subscribe((user: any) => {
-                      this.patientName= user[0].displayName;});
+    .then(() => { this.firestore.getUserData(this.patient).then((user: any) => {
+                      this.patientName= user.displayName;});
     })
     .finally(() => { this.spinnerService.hide();});
   }
@@ -144,7 +144,7 @@ export class RequestAppointmentDateComponent implements OnInit {
     date.setDate(date.getDate() + daysToAdd);
     for (let i = 0; i < 2; i++) {
       for(let j = 0; j < hours.length; j++) {
-        this.appointments.push(new Date(date).toLocaleDateString('es-es', { month:"numeric", day:"numeric"}) + ' ' + hours[j]);
+        this.appointments.push(new Date(date).toLocaleDateString('es-es', { month:"numeric", day:"numeric"}) + '-' + hours[j]);
       }
       date.setDate(date.getDate() + 7);
     }

@@ -22,7 +22,8 @@ export class AdminHomeComponent implements OnInit {
 
   getUsersData() {
     this.spinnerService.show();
-    this.firestoreService.getAllUsers().subscribe((users: any) => {
+    this.firestoreService.getAllSpecialists()
+    .then((users: any) => {
       console.log(users)
       this.usersData = users;
       this.spinnerService.hide();

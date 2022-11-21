@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row align-items-md-stretch">
+        <div class="col-md-12 ">
+            <div class="h-100 p-5 bg-light border rounded-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1>USUARIOS</h1>                
+                    <label (click)="downloadData()" class="btn btn-outline-primary">DESCARGAR PLANTILLA</label> 
+                </div>
+                <hr>
+                <div *ngIf="this.usersData as users">
+                    <table class="table table-hover text-center" id="users-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">APELLIDO</th>
+                                <th scope="col">DNI</th>
+                                <th scope="col">EDAD</th>
+                                <th scope="col">MAIL</th>
+                                <th scope="col">ROL</th>
+                                <th scope="col">PERFIL</th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="align-middle">{{user.name}}</td>
+                                <td class="align-middle">{{user.lastName}}</td>
+                                <td class="align-middle">{{user.dni}}</td>
+                                <td class="align-middle">{{user.age}}</td>
+                                <td class="align-middle">{{user.email}}</td>
+                                <td class="align-middle">{{user.role | userType}}</td>
+                                <td>
+                                    <label (click)="downloadAppointments(user.displayName, user.role)">
+                                        <img src="{{(user.photoURL) ? user.photoURL : '/assets/common/profile-user.png'}}" alt="{{user.displayName}}"
+                                            style="width: 50px">
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>             
+                                           
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

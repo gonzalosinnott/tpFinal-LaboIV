@@ -5,3 +5,7 @@
 tr.row {
     display: contents
   }
+
+  .container-fluid {
+    margin-top: 100px;
+}

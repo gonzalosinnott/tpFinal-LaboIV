@@ -16,49 +16,59 @@ const redirectLoggedInToHome = () => redirectLoggedInTo(['admin']);
 const routes: Routes = [
   { 
     path: '', 
+    ...canActivate(redirectLoggedInToHome),
     loadChildren: () => import('./modules/login/login.module')
     .then(m => m.LoginModule),
-    ...canActivate(redirectLoggedInToHome),
+    
   },
   { 
     path: 'login', 
+    ...canActivate(redirectLoggedInToHome),
     loadChildren: () => import('./modules/login/login.module')
     .then(m => m.LoginModule),
-    ...canActivate(redirectLoggedInToHome),
+    
   },
   { 
     path: 'register', 
+    ...canActivate(redirectLoggedInToHome),
     loadChildren: () => import('./modules/register/register.module')
     .then(m => m.RegisterModule),
-    ...canActivate(redirectLoggedInToHome),
+    
   },
   { 
     path: 'admin', 
+    ...canActivate(redirectUnauthorizedToLogin),
+    canActivate: [AdminGuard],
+    data: {state:  'admin'},
     loadChildren: () => import('./modules/admin-dashboard/admin-dashboard.module')
     .then(m => m.AdminDashboardModule),
-    ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [AdminGuard]
+    
   },
   { 
     path: 'doctor', 
+    ...canActivate(redirectUnauthorizedToLogin),
+    canActivate: [DoctorGuard],
+    data: {state:  'doctor'},
     loadChildren: () => import('./modules/doctor-dashboard/doctor-dashboard.module')
     .then(m => m.DoctorDashboardModule),
-    ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [DoctorGuard]
+    
   },
   { 
     path: 'patient', 
+    ...canActivate(redirectUnauthorizedToLogin),
+    canActivate: [PatientGuard],
+    data: {state:  'patient'},
     loadChildren: () => import('./modules/patient-dashboard/patient-dashboard.module')
     .then(m => m.PatientDashboardModule),
-    ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [PatientGuard]
+    
   },
   {
     path: 'verification',
     component: VerificationComponent,
     ...canActivate(redirectUnauthorizedToLogin),
+    data: {state:  'verification'}
   },
-  { path: '**', pathMatch: 'full', component: NotFoundComponent }
+  { path: '**', pathMatch: 'full', component: NotFoundComponent, data: {state:  'not-found'} }
 ];
 
 @NgModule({

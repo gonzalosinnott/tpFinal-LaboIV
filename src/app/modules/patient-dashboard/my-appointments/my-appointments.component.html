@@ -61,7 +61,7 @@
     </div>
 </div>
 <ng-template #elseBlock>
-    <label class="btn btn-outline-danger">NO EXISTEN TURNOS PARA EL CRITERIO SEELCCIONADO</label>
+    <label class="btn btn-outline-danger">NO EXISTEN TURNOS PARA EL CRITERIO SELECCIONADO</label>
 </ng-template>
 
 
@@ -72,8 +72,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1>ESPECIALIDADES</h1>
-                <div *ngIf="specialtiesList?.length > 0; else elseBlock">
-                    <div *ngFor="let specialty  of specialtiesList; let i=index">
+                <div *ngIf="specialtiesByPatient?.length > 0; else elseBlockSpecialty">
+                    <div *ngFor="let specialty  of specialtiesByPatient; let i=index">
                         <input type="radio" name="specialty" class="btn-check" id={{specialty}} autocomplete="off"
                             [value]="specialty" (click)="selectSpecialty($event)" data-bs-dismiss="modal" />
 
@@ -87,8 +87,8 @@
                         </label>
                     </div>
                 </div>
-                <ng-template #elseBlock>
-                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALIDADES CARGADAS EN EL SISTEMA</label>
+                <ng-template #elseBlockSpecialty>
+                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALIDADES PARA LAS QUE USTED POSEA TURNO</label>
                 </ng-template>
             </div>
             <div class="modal-footer">
@@ -103,8 +103,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h1>ESPECIALISTAS</h1>
-                <div *ngIf="doctors?.length > 0; else elseBlock">
-                    <div *ngFor="let doctor  of doctors; let i=index">
+                <div *ngIf="doctorsByPatient?.length > 0; else elseBlockSpecialist">
+                    <div *ngFor="let doctor  of doctorsByPatient; let i=index">
                         <input type="radio" name="doctor" class="btn-check" id={{doctor.displayName}} autocomplete="off"
                             [value]="doctor.displayName" (click)="selectDoctor($event)" data-bs-dismiss="modal" />
 
@@ -118,8 +118,8 @@
                         </label>
                     </div>
                 </div>
-                <ng-template #elseBlock>
-                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALIDADES CARGADAS EN EL SISTEMA</label>
+                <ng-template #elseBlockSpecialist>
+                    <label class="btn btn-outline-danger">NO EXISTEN ESPECIALISTAS PARA LOS QUE USTED POSEA TURNO</label>
                 </ng-template>
             </div>
             <div class="modal-footer">
@@ -163,7 +163,12 @@
                 <div *ngIf="appointmentDiagnostic != ''">
                     <p>DIAGNOSTICO: {{appointmentDiagnostic}}</p>
                 </div>
-               
+                <p>OBSERVACIONES:</p>
+                <ul>
+                    <li *ngFor="let info of appointmentAditionalInfo | keyvalue">
+                        {{info.key}}: {{info.value}}
+                    </li>
+                </ul>
             </div>
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>

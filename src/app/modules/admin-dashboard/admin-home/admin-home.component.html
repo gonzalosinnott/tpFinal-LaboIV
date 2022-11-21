@@ -1,15 +1,15 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row align-items-md-stretch">
 
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="h-100 p-5 text-bg-dark rounded-3">
                 <app-profile></app-profile>
             </div>
         </div>
 
-        <div class="col-md-7 ">
+        <div class="col-md-9 ">
             <div class="h-100 p-5 bg-light border rounded-3">
-                <h1>USUARIOS</h1>
+                <h1>PLANTILLA DE EMPLEADOS</h1>
                 <hr>
                 <div *ngIf="this.usersData as users">
                     <table class="table table-hover text-center">
@@ -18,37 +18,38 @@
                                 <th scope="col">FOTO</th>
                                 <th scope="col">NOMBRE</th>
                                 <th scope="col">APELLIDO</th>
-                                <th scope="col">ROL</th>
+                                <th scope="col">ESPECIALIDADES</th>
                                 <th scope="col">HABILITAR</th>
                             </tr>
                         </thead>
-                    
+
                         <tbody>
-                    
                             <tr *ngFor="let user of users; let i=index">
-                                <td class="align-middle"><img class="img-thumbnail img-fluid" 
-                                         src="{{(user.photoURL) ? user.photoURL : '/assets/common/profile-user.png'}}"
-                                         alt="{{user.displayName}}"
-                                         style="width: 50%"></td>
+                                <td class="align-middle"><img class="img-thumbnail"
+                                        src="{{(user.photoURL) ? user.photoURL : '/assets/common/profile-user.png'}}"
+                                        alt="{{user.displayName}}" style="width: 100px"></td>
                                 <td class="align-middle">{{user.name}}</td>
                                 <td class="align-middle">{{user.lastName}}</td>
-                                <td class="align-middle" *ngIf="user.role == 'Patient'">Paciente</td>
-                                <td class="align-middle" *ngIf="user.role == 'Doctor'">Especialista</td>
-                                <td class="align-middle" *ngIf="user.role == 'Admin'">Administrador</td>
 
-                                <td class="align-middle" *ngIf="user.role == 'Patient'"> N/A</td>
-                                <td class="align-middle" *ngIf="user.role == 'Admin'">N/A</td>
-
-                                <td class="align-middle" *ngIf="user.role == 'Doctor' && user.approved ==true">
-                                    <button type="button" class="btn btn-danger" (click)="disableUser(user.uid)">INHABILITAR</button>
+                                <td class="align-middle">
+                                    <div *ngIf="user.specialties as specialties">
+                                        <ul>
+                                            <li *ngFor="let specialty of specialties">{{specialty | specialties}}</li>
+                                        </ul>
+                                    </div>
                                 </td>
 
-                                <td class="align-middle" *ngIf="user.role == 'Doctor' && user.approved ==false">
-                                    <button type="button" class="btn btn-success" (click)="enableUser(user.uid)">HABILITAR</button>
+                                <td class="align-middle" *ngIf="user.approved ==true">
+                                    <button type="button" class="btn btn-danger"
+                                        (click)="disableUser(user.uid)">INHABILITAR</button>
                                 </td>
 
+                                <td class="align-middle" *ngIf="user.approved ==false">
+                                    <button type="button" class="btn btn-success"
+                                        (click)="enableUser(user.uid)">HABILITAR</button>
+                                </td>
                             </tr>
-                        </tbody>                    
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -34,9 +34,21 @@ export class FirestoreService {
   }
 
   getUserData(uid: any) {
-    return this.afs
-      .collection('users', (ref) => ref.where('uid', '==', uid))
-      .valueChanges();
+    var data;
+    return firebase
+      .firestore()
+      .collection('users')
+      .where('uid', '==', uid)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data = doc.data();
+        });
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });    
   }
 
   getAllUsers() {
@@ -266,6 +278,45 @@ export class FirestoreService {
       });
   }
 
+  getAppointmentsBySpecialist(specialist: any) {
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('appointments')
+      .where('doctor', '==', specialist)
+      .orderBy('date', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+  }
+
+  getAppointmentsByPatient(patient: any) {
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('appointments')
+      .where('patient', '==', patient)
+      .orderBy('date', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+  }
+
   getAppointmentsBySpecialtyForDoctor(specialty: any, doctor: any) {
     const data: any[] = [];
     return firebase
@@ -303,26 +354,7 @@ export class FirestoreService {
       .catch((error) => {
         console.log('Error getting documents: ', error);
       });
-  }
-
-  getAppointmentsBySpecialist(specialist: any) {
-    const data: any[] = [];
-    return firebase
-      .firestore()
-      .collection('appointments')
-      .where('doctor', '==', specialist)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data());
-        });
-        console.log(data);
-        return data;
-      })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
-      });
-  }
+  }  
 
   changeAppointmentStatus(
     uid: any,
@@ -402,7 +434,6 @@ export class FirestoreService {
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
-        console.log(data);
         return data;
       })
       .catch((error) => {
@@ -416,6 +447,27 @@ export class FirestoreService {
       .firestore()
       .collection('appointments')
       .where('doctor', '==', specialist)
+      .where('patient', '==', patient)
+      .orderBy('date', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        console.log(data);
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+  }
+
+  getMedicalHistoryBySpecialtyAndPatient(specialty: any, patient: any) {
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('appointments')
+      .where('specialty', '==', specialty)
       .where('patient', '==', patient)
       .orderBy('date', 'asc')
       .get()
@@ -470,7 +522,20 @@ export class FirestoreService {
   }
 
   getSpecialties() {
-    return this.afs.collection('specialties').valueChanges();
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('specialties')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
   }
 
   getDoctorsBySpecialtyAndEnabled(specialty: any) {

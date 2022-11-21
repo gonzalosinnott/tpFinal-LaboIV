@@ -10,3 +10,12 @@
 .time{
     margin: 9px;
 }
+
+button {
+    margin: 5px;
+}
+
+.btn {
+    width: 100%;
+    margin: 5px;
+}

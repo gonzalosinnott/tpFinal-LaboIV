@@ -1,4 +1,14 @@
 <app-spinner></app-spinner>
-<router-outlet></router-outlet>
+
+<div
+  [@admin]="getState(o)"
+  [@doctor]="getState(o)"
+  [@patient]="getState(o)"
+  [@not-found]="getState(o)"
+  [@verification]="getState(o)"
+>
+  <router-outlet #o="outlet" > </router-outlet>
+</div>
+
 
   

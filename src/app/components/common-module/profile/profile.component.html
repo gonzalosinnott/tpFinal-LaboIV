@@ -11,6 +11,9 @@ alt="{{user.displayName}}">
         <hr>
         <div *ngIf="user.role == 'Patient'">
             <p>Obra Social: <strong>{{(user.insurance)}}</strong></p>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#medicalHistoryModal">
+                MI HISTORIA CLINICA
+              </button>
         </div>   
         <div *ngIf="user.role == 'Doctor'">
             <p>Especialidades:</p>                 
@@ -125,4 +128,38 @@ alt="{{user.displayName}}">
     <option value="17:30:00">
     <option value="18:00:00">                  
 </datalist>
+
+
+<div class="modal fade" id="medicalHistoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1 class="text-center">ESPECIALIDAD</h1>
+                <hr>
+                <div *ngIf="specialtiesList?.length > 0; else elseBlock">
+                    <div *ngFor="let specialty  of specialtiesList; let i=index">
+                        <input type="radio" name="specialty" class="btn-check" id={{specialty}} autocomplete="off"
+                            [value]="specialty" (click)="selectSpecialty(specialty)"
+                            data-bs-dismiss="modal" />
+
+                        <label class="btn btn-outline-primary" for={{specialty}}>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img class="img-fluid" src='/assets/specialties/{{specialty}}.png'
+                                    onerror="this.onerror=null;this.src='/assets/common/logo.png';" alt="{{specialty}}"
+                                    style="width: 30%">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <ng-template #elseBlock>
+                    <label class="btn btn-outline-danger">USTED NO TIENE HISTORIAS CLINICAS CARGADAS EN EL
+                        SISTEMA</label>
+                </ng-template>
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 

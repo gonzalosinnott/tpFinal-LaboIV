@@ -49,7 +49,11 @@ import { UserNamePipe } from 'src/app/pipes/userrName.pipe';
     CaptchaComponent,
     SpecialtiesPipe,
     AppointmentStatusPipe,
-    UserNamePipe
+    UserNamePipe,
+    UserTypePipe
+  ],
+  providers: [
+    SpecialtiesPipe
   ]
 })
 export class SharedModule { }

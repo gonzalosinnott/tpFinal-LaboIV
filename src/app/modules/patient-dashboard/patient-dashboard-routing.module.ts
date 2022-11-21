@@ -7,10 +7,10 @@ import { PatientRequestAppointmentComponent } from './patient-request-appointmen
 
 const routes: Routes = [
   { path: '', component: PatientDashboardComponent,children:[
-    {path:'',component:PatientHomeComponent},
-    {path:'request-appointment',component:PatientRequestAppointmentComponent}
+    {path:'',component:PatientHomeComponent,data: {state:  'patient'}},
+    {path:'request-appointment-patient',component:PatientRequestAppointmentComponent,data: {state:  'request-appointment-patient'}}
   ]},
-  { path: '**', pathMatch: 'full', component: NotFoundComponent }
+  { path: '**', pathMatch: 'full', component: NotFoundComponent, data: {state:  'not-found'} }
 ];
 
 @NgModule({

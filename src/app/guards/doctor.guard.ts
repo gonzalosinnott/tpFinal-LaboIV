@@ -27,7 +27,6 @@ export class DoctorGuard implements CanActivate {
         var userStorage = JSON.parse(localStorage.getItem('userData'));
         this.firestore.getUserRole(userStorage.uid).then
         (role => {
-          console.log(role);
           if (role == 'Doctor') {
             this.spinnerService.hide();   
             return true;

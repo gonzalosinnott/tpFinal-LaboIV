@@ -18,18 +18,22 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class MyAppointmentsComponent implements OnInit {
   specialtiesList: any;
+  specialtiesByPatient: any = [] ;
   selectedSpecialty: any;
   doctors: any;
+  doctorsByPatient: any = [] ;
   selectedDoctor: any;
   user: any;
   userData: any;
   appointments: any;
+  appointmentsByPatient: any;
   specialtySelected: boolean = false;
   doctorSelected: boolean = false;
   appointmentUID: any;
   appointmentStatus: any;
   appointmentInfo: any;
   appointmentDiagnostic: any;
+  appointmentAditionalInfo: any;
   appointmentRate: number = 0;
   doctorClarity: string = '';
   
@@ -49,8 +53,6 @@ export class MyAppointmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('userData'));
-    this.getSpecialties();
-    this.getSpecialists();
     this.getUserData();
     this.form = this.fb.group({
       cancelReason: ['', Validators.required],
@@ -59,27 +61,79 @@ export class MyAppointmentsComponent implements OnInit {
   }
 
   getUserData() {
-    this.firestore.getUserData(this.user.uid).subscribe((user: any) => {
-      console.log(user);
-      this.userData = user[0];
+    this.firestore.getUserData(this.user.uid)
+    .then((user: any) => {
+      this.userData = user;
+    })
+    .then(() => {
+      this.getSpecialists();
+      this.getSpecialties();
     });
   }
 
   getSpecialties() {
     this.spinnerService.show();
-    this.firestore.getSpecialties().subscribe((data: any) => {
+    this.firestore.getSpecialties()
+    .then((data: any) => {
       this.specialtiesList = data[0].specialties;
-      this.spinnerService.hide();
-    });
+    })
+    .then(() => {
+      this.firestore.getAppointmentsByPatient(this.userData.displayName)
+      .then((appointments) => {
+        this.appointmentsByPatient = appointments;
+      })
+      .then(() => {
+        this.specialtiesList.forEach((specialty: any) => {
+          this.appointmentsByPatient.forEach((appointment: any) => {
+            if(specialty == appointment.specialty) {
+              this.specialtiesByPatient.push(specialty);
+            }
+          });
+        });
+      })
+      .then(() => {
+        this.specialtiesByPatient = this.removeDuplicates(this.specialtiesByPatient);
+      })
+      .finally(() => {
+        this.spinnerService.hide();
+      });
+    })     
   }
 
   getSpecialists() {
+    this.doctorsByPatient = [];
     this.spinnerService.show();
-    this.firestore.getAllSpecialists().then((data) => {
+    this.firestore.getAllSpecialists()
+    .then((data) => {
       this.doctors = data;
+    })
+    .then(() => {
+      this.firestore.getAppointmentsByPatient(this.userData.displayName)
+      .then((data) => {
+        this.appointmentsByPatient = data;})
+      .then(() => {
+        this.doctors.forEach((doctor: any) => {
+          this.appointmentsByPatient.forEach((appointment: any) => {
+            if(doctor.displayName == appointment.doctor) {
+              this.doctorsByPatient.push(doctor);
+            }
+          });
+        });
+      })
+      .then(() => {
+        this.doctorsByPatient = this.removeDuplicates(this.doctorsByPatient);
+      });
+    })
+    .then(() => {
       this.spinnerService.hide();
-    });
+    });      
   }
+
+  removeDuplicates(arr: any) {
+    return arr.filter((item,
+        index) => arr.indexOf(item) === index);
+  }
+
 
   getAppointmentsBySpecialty() {
     this.spinnerService.show();
@@ -172,6 +226,7 @@ export class MyAppointmentsComponent implements OnInit {
       this.appointmentDiagnostic = appointment[0].diagnosis;
       this.appointmentInfo = appointment[0].appointmentInfo;
       this.appointmentStatus = appointment[0].status;
+      this.appointmentAditionalInfo = appointment[0].observations;
       this.spinnerService.hide();      
     });
   }

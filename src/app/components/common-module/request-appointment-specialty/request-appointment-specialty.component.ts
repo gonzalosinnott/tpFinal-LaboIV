@@ -28,7 +28,7 @@ export class RequestAppointmentSpecialtyComponent implements OnInit {
 
   getSpecialties() {
     this.spinnerService.show();
-    this.firestore.getSpecialties().subscribe((data:any) => {
+    this.firestore.getSpecialties().then((data:any) => {
       this.specialtiesList = data[0].specialties;
       this.spinnerService.hide();
     });
