@@ -1,0 +1,29 @@
+<hr>
+<div class="d-flex justify-content-between align-items-center">
+    <h4>REGISTRO DE INGRESOS AL SISTEMA</h4>
+    <label (click)="downloadData()" class="btn btn-outline-primary">DESCARGAR</label>
+</div>
+<hr>
+<div *ngIf="logs != ''; else elseBlock">
+    <div class="tbodyDiv">
+    <table class="table table-striped table-bordered table-hover" id="logs-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let log of logs">
+                <td>{{log.displayName}}</td>
+                <td>{{log.date}}</td>
+                <td>{{log.time}}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <label class="btn btn-outline-danger">NO HAY LOGS CARGADOS EN EL SISTEMA</label>
+</ng-template>

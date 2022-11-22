@@ -16,7 +16,7 @@ const routes: Routes = [
     {path: 'request-appointment-admin', component: AdminRequestAppointmentComponent, data: {state:  'request-appointment-admin'} },
     {path: 'appointments', component: AppointmentsComponent, data: {state:  'appointments'} },
     {path: 'users', component: UsersComponent, data: {state:  'users'} },
-    {path: 'reports', component: ReportsComponent, data: {state:  'reports'} }
+    {path: 'reports', component: ReportsComponent, data: {state:  'reports'} },
   ]},
   { path: '**', pathMatch: 'full', component: NotFoundComponent, data: {state:  'not-found'} }
 ];

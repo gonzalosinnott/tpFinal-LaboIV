@@ -21,7 +21,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
   declarations: [
     AppComponent,
     VerificationComponent,
-    NotFoundComponent,    
+    NotFoundComponent,
+    
   ],
   imports: [    
     BrowserModule,

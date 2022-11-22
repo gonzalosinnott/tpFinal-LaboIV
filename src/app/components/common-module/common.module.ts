@@ -17,6 +17,11 @@ import { RequestAppointmentPatientComponent } from './request-appointment-patien
 import { AppointmentStatusPipe } from 'src/app/pipes/appointmentStatus.pipe';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { UserNamePipe } from 'src/app/pipes/userrName.pipe';
+import { UserTypeStyleDirective } from 'src/app/directives/user-type-style.directive';
+import { MouseOverDirective } from 'src/app/directives/mouseover.directive';
+import { CaptchaDirective } from 'src/app/directives/captcha.directive';
+import { ChartistModule } from "ng-chartist";
+
 
 
 @NgModule({
@@ -30,6 +35,9 @@ import { UserNamePipe } from 'src/app/pipes/userrName.pipe';
     UserTypePipe,
     UserNamePipe,
     AppointmentStatusPipe,
+    UserTypeStyleDirective,  
+    MouseOverDirective, 
+    CaptchaDirective, 
     RequestAppointmentSpecialtyComponent,
     RequestAppointmentDoctorComponent,
     RequestAppointmentDateComponent,
@@ -40,6 +48,7 @@ import { UserNamePipe } from 'src/app/pipes/userrName.pipe';
     CommonModule,
     FormsModule,
     CommonModules,
+    ChartistModule
   ],
   exports: [
     CommonModuleComponent,
@@ -50,7 +59,11 @@ import { UserNamePipe } from 'src/app/pipes/userrName.pipe';
     SpecialtiesPipe,
     AppointmentStatusPipe,
     UserNamePipe,
-    UserTypePipe
+    UserTypePipe,
+    UserTypeStyleDirective, 
+    MouseOverDirective,
+    CaptchaDirective,
+    ChartistModule   
   ],
   providers: [
     SpecialtiesPipe

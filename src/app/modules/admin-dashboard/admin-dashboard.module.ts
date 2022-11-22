@@ -11,8 +11,11 @@ import { AdminRequestAppointmentComponent } from './admin-request-appointment/ad
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { UsersComponent } from './users/users.component';
 import { ReportsComponent } from './reports/reports.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { AppointmentsDoctorComponent } from './reports/appointments-doctor/appointments-doctor.component';
+import { LogsComponent } from './reports/logs/logs.component';
+import { AppointmentsSpecialtyComponent } from './reports/appointments-specialty/appointments-specialty.component';
+import { AppointmentsDayComponent } from './reports/appointments-day/appointments-day.component';
+import { AppointmentsEndedComponent } from './reports/appointments-ended/appointments-ended.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppointmentsComponent,
     UsersComponent,
     ReportsComponent,
+    AppointmentsDoctorComponent,
+    LogsComponent,
+    AppointmentsSpecialtyComponent,
+    AppointmentsDayComponent,
+    AppointmentsEndedComponent,    
   ],
   imports: [
     CommonModule,

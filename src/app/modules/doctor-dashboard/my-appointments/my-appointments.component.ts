@@ -260,7 +260,7 @@ export class MyAppointmentsComponent implements OnInit {
         this.comment.value;
 
       var appointmentUID = this.appointmentUID.split('-');
-      var patient = appointmentUID[2];
+      var patient = appointmentUID[3];
 
       this.saveAppointmentMedicalHistory(
         patient,

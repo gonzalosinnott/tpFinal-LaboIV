@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   patientMedicalHistory: any;
   patientAppointments: any;
   patientAppointmentsBySpecialty: any;
-  specialtiesList: any[] = [];
+  profileSpecialtiesList: any[] = [];
   userData:any;
   day: string;
   days: any[] = [];
@@ -47,28 +47,6 @@ export class ProfileComponent implements OnInit {
     this.firestoreService.getUserData(user.uid)
     .then((user: any) => {
       this.userData = user;
-    })
-    .then(() => {
-      if(this.userData.role == 'Patient'){
-        this.firestoreService.getAppointmentsByPatient(this.userData.displayName)
-        .then((appointments: any) => {
-          this.patientAppointments = appointments;
-        })
-        .then(() => {
-          this.firestoreService.getMedicalHistoryByPatient(this.userData.displayName)
-          .then((medicalHistory: any) => {
-            this.patientMedicalHistory = medicalHistory[0];
-          })
-        })
-        .then(() => {
-          this.patientAppointments.forEach(element => {
-            this.specialtiesList.push(element.specialty);        
-          });
-        })
-        .then(() => {          
-          this.specialtiesList = this.removeDuplicates(this.specialtiesList)             
-        });
-      }
     })
     .finally(() => {
       this.spinnerService.hide();
@@ -139,61 +117,91 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  selectSpecialty(specialty: any) {
+  loadMedicalHistory(){
 
-    let specialtyFormated = new SpecialtiesPipe().transform(specialty);
-    console.log(specialtyFormated);
-
-    this.firestoreService.getMedicalHistoryBySpecialtyAndPatient(specialty, this.userData.displayName)
-    .then((medicalHistory: any) => {
-      this.patientAppointmentsBySpecialty = medicalHistory;
+    this.firestoreService.getAppointmentsByPatient(this.userData.displayName)
+    .then((appointments: any) => {
+      console.log(appointments);
+      this.patientAppointments = appointments;
     })
     .then(() => {
-
-      var today  = new Date();
-      var line = 20;
-      today.toLocaleDateString("es-ES")
-      let PDF = new jsPDF('p', 'mm', 'a4');
-      let pageHeight= (PDF.internal.pageSize.height)-10;
-
-      PDF.addImage('../../../assets/common/logo.png', 'PNG', 150, 10,50,50, );
-      PDF.text(`FECHA DE EMISION: ${today.toLocaleDateString("es-ES")}`, 10,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`Historia clínica de ${this.patientMedicalHistory.patient}`, 10,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`-Datos ultimo control:`,10,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`* Altura: ${this.patientMedicalHistory.height} cm`,15,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`* Peso: ${this.patientMedicalHistory.weight} kgs`,15,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`* Temperatura: ${this.patientMedicalHistory.temp} ºC`,15,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`* Presión: ${this.patientMedicalHistory.pressure} (media)`,15,line);
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      PDF.text(`- Historial de Atencion Especialidad: ${specialtyFormated}`,10,line);      
-      (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      this.patientAppointmentsBySpecialty.forEach(element => {
-        PDF.text(`-----------------------------------------------------`,15,line);
-        (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-        PDF.text(`* Fecha: ${element.date}`,15,line);
-        (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-        PDF.text(`* Especialista: ${element.doctor}`,15,line);
-        (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-        PDF.text(`* Diagnostico: ${element.diagnosis}`,15,line);
-        (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-        PDF.text(`* Observaciones:`,15,line);
-        (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-        for (var key in element.observations) {
-          PDF.text(`* ${key}: ${element.observations[key]}`,20,line);
-          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-        }
-        PDF.text(`* Comentario de ${element.appointmentInfo}`,15,line, {maxWidth: 180 });
-        (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-      }); 
-
-      PDF.save('historia-clínica'+ '-' + this.patientMedicalHistory.patient + '-' + specialtyFormated +'.pdf');
-    });
+      console.log(this.userData.displayName);
+      
+    })
+    .then(() => {
+      this.patientAppointments.forEach(element => {
+        this.profileSpecialtiesList.push(element.specialty);        
+      });
+    })
+    .then(() => {          
+      this.profileSpecialtiesList = this.removeDuplicates(this.profileSpecialtiesList)             
+    })
+    
   }
+
+  createMedicalHistoryBySpecialty(specialty: any) {
+
+    let specialtyFormated = new SpecialtiesPipe().transform(specialty);
+
+    
+    this.firestoreService.getMedicalHistoryBySpecialtyAndPatient(specialty, this.userData.displayName)
+        .then((medicalHistory: any) => {
+        
+          this.patientAppointmentsBySpecialty = medicalHistory;
+        })
+        .then(() => {
+          this.firestoreService.getMedicalHistoryByPatient(this.userData.displayName)
+              .then((medicalHistory: any) => {
+                this.patientMedicalHistory = medicalHistory;
+              })    
+          .then(() => {
+
+          var today  = new Date();
+          var line = 20;
+          today.toLocaleDateString("es-ES")
+          let PDF = new jsPDF('p', 'mm', 'a4');
+          let pageHeight= (PDF.internal.pageSize.height)-10;
+
+          PDF.addImage('../../../assets/common/logo.png', 'PNG', 150, 10,50,50, );
+          PDF.text(`FECHA DE EMISION: ${today.toLocaleDateString("es-ES")}`, 10,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`Historia clínica de ${this.patientMedicalHistory.patient}`, 10,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`-Datos ultimo control:`,10,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`* Altura: ${this.patientMedicalHistory.height} cm`,15,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`* Peso: ${this.patientMedicalHistory.weight} kgs`,15,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`* Temperatura: ${this.patientMedicalHistory.temp} ºC`,15,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`* Presión: ${this.patientMedicalHistory.pressure} (media)`,15,line);
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          PDF.text(`- Historial de Atencion Especialidad: ${specialtyFormated}`,10,line);      
+          (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          this.patientAppointmentsBySpecialty.forEach(element => {
+            PDF.text(`-----------------------------------------------------`,15,line);
+            (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+            PDF.text(`* Fecha: ${element.date}`,15,line);
+            (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+            PDF.text(`* Especialista: ${element.doctor}`,15,line);
+            (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+            PDF.text(`* Diagnostico: ${element.diagnosis}`,15,line);
+            (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+            PDF.text(`* Observaciones:`,15,line);
+            (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+            for (var key in element.observations) {
+              PDF.text(`* ${key}: ${element.observations[key]}`,20,line);
+              (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+            }
+            PDF.text(`* Comentario de ${element.appointmentInfo}`,15,line, {maxWidth: 180 });
+            (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
+          }); 
+
+          PDF.save('historia-clínica'+ '-' + this.patientMedicalHistory.patient + '-' + specialtyFormated +'.pdf');
+        });
+      });
+    }
+          
 
 }

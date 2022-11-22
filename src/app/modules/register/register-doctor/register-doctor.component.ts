@@ -25,8 +25,7 @@ export class RegisterDoctorComponent implements OnInit {
   specialties: any[] = [];
   public extraSpecialty = new FormControl('');
   specialtiesList: any;
-  captcha: any = []
-  public enteredCaptcha = new FormControl('');
+  captcha: boolean = false;
 
 
   constructor(private fb: FormBuilder,
@@ -62,9 +61,7 @@ export class RegisterDoctorComponent implements OnInit {
       specialties: [''],
       extraSpecialty: [''],
       approved: false,
-      enteredCaptcha: [''],
     });
-    this.createCaptcha();
     this.getSpecialties();
   }
 
@@ -105,7 +102,7 @@ export class RegisterDoctorComponent implements OnInit {
     this.user.role = 'Doctor';
     
 
-    if (this.enteredCaptcha.value != this.captcha) {
+    if (!this.captcha) {
       this.toastr.error('Captcha incorrecto', 'Error');
       return;
     }
@@ -141,18 +138,7 @@ export class RegisterDoctorComponent implements OnInit {
     }
   }
 
-  createCaptcha() {
-    const activeCaptcha = document.getElementById("captcha");
-    let captcha = []
-    for (let q = 0; q < 6; q++) {
-      if (q % 2 == 0) {
-        captcha[q] = String.fromCharCode(Math.floor(Math.random() * 26 + 65));
-      } else {
-        captcha[q] = Math.floor(Math.random() * 10 + 0);
-      }
-    }
-    const theCaptcha = captcha.join("");
-    this.captcha = theCaptcha;
-    activeCaptcha!.innerHTML = `${theCaptcha}`;
-  } 
+  captchaResult(result: any) {      
+    this.captcha = result;
+  }
 }

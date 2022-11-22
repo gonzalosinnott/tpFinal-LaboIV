@@ -31,7 +31,7 @@
                                 <td class="align-middle">{{user.role | userType}}</td>
                                 <td>
                                     <label (click)="downloadAppointments(user.displayName, user.role)">
-                                        <img src="{{(user.photoURL) ? user.photoURL : '/assets/common/profile-user.png'}}" alt="{{user.displayName}}"
+                                        <img  appMouseOver src="{{(user.photoURL) ? user.photoURL : '/assets/common/profile-user.png'}}" alt="{{user.displayName}}"
                                             style="width: 50px">
                                     </label>
                                 </td>

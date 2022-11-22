@@ -30,7 +30,40 @@ export class FirestoreService {
       uid: user.uid,
       approved: user.approved,
     };
+
     return await this.afs.collection('users').add(newUser);
+  }
+
+  async logUser(user: User) {
+    
+    var auxDate = new Date().toLocaleString();
+    var date = auxDate.split(',')[0];
+    var time = auxDate.split(',')[1];
+    let newLog: any = {
+      displayName: user.name + ' ' + user.lastName,
+      date: date,
+      time: time,
+    };
+    var uid = (date + ' - ' + time + ' - ' + user.name + ' ' + user.lastName).replace(/\//g, "-")
+    await this.afs.collection('logs').doc(uid).set(newLog, {merge: false});
+  }
+
+  getLogs() {
+    const data: any[] = [];
+    return firebase
+      .firestore()
+      .collection('logs')
+      .orderBy('date', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        return data;
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
   }
 
   getUserData(uid: any) {
@@ -153,6 +186,16 @@ export class FirestoreService {
     return this.afs
       .collection('appointments', (ref) => ref.where('uid', '==', uid))
       .valueChanges();
+  }
+
+  getAppointments() {
+    return this.afs
+      .collection('appointments', (ref) => ref.orderBy('date', 'asc')).valueChanges();
+  }
+
+  getFinishedAppointments() {
+    return this.afs
+      .collection('appointments', (ref) => ref.where('status', '==', 'closed').orderBy('date', 'asc')).valueChanges();
   }
 
   async addAppointment(date, doctor, patient, specialty) {
@@ -424,7 +467,7 @@ export class FirestoreService {
 
   //MEDICAL HISTORY MANAGMENT
   getMedicalHistoryByPatient(patient: any) {
-    const data: any[] = [];
+    var data: any;
     return firebase
       .firestore()
       .collection('medical-history')
@@ -432,8 +475,9 @@ export class FirestoreService {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          data.push(doc.data());
+          data = doc.data();
         });
+        console.log(data);
         return data;
       })
       .catch((error) => {
@@ -448,6 +492,7 @@ export class FirestoreService {
       .collection('appointments')
       .where('doctor', '==', specialist)
       .where('patient', '==', patient)
+      .where('status', '==', 'closed')
       .orderBy('date', 'asc')
       .get()
       .then((querySnapshot) => {
@@ -469,6 +514,7 @@ export class FirestoreService {
       .collection('appointments')
       .where('specialty', '==', specialty)
       .where('patient', '==', patient)
+      .where('status', '==', 'closed')
       .orderBy('date', 'asc')
       .get()
       .then((querySnapshot) => {

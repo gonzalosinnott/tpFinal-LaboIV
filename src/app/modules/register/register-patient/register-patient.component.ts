@@ -7,7 +7,6 @@ import { SpinnerService } from 'src/app/services/spinner.service';
 import { Patient } from 'src/app/models/patient';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register-patient',
@@ -21,8 +20,7 @@ export class RegisterPatientComponent implements OnInit {
   user = new User();
   patient = new Patient();
   rePassword: string = '';
-  captcha: any = []
-  public enteredCaptcha = new FormControl('');
+  captcha: boolean = false;
 
   constructor(private fb: FormBuilder,
               private toastr: ToastrService,
@@ -52,7 +50,8 @@ export class RegisterPatientComponent implements OnInit {
     this.user = this.form.value;
     this.user.approved = true;
     this.user.role = 'Patient';
-    if (this.enteredCaptcha.value != this.captcha) {
+    console.log(this.captcha);
+    if (!this.captcha) {
       this.toastr.error('Captcha incorrecto', 'Error');
       return;
     }
@@ -94,23 +93,10 @@ export class RegisterPatientComponent implements OnInit {
       insurance: [''],
       specialties: [''],
       approved: true,  
-      enteredCaptcha: [''],
     });
-    this.createCaptcha();
-  } 
-
-  createCaptcha() {
-    const activeCaptcha = document.getElementById("captcha");
-    let captcha = []
-    for (let q = 0; q < 6; q++) {
-      if (q % 2 == 0) {
-        captcha[q] = String.fromCharCode(Math.floor(Math.random() * 26 + 65));
-      } else {
-        captcha[q] = Math.floor(Math.random() * 10 + 0);
-      }
-    }
-    const theCaptcha = captcha.join("");
-    this.captcha = theCaptcha;
-    activeCaptcha!.innerHTML = `${theCaptcha}`;
-  } 
+  }   
+  
+  captchaResult(result: any) {      
+    this.captcha = result;
+  }
 }

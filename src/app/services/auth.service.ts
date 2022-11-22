@@ -61,6 +61,10 @@ export class AuthService {
       if (res.user.emailVerified) {
         this.setLocalStorage();
         this.getUserRole(this.auth.currentUser.uid);
+        this.firestoreService.getUserData(this.auth.currentUser.uid)
+        .then((user) => {
+          this.firestoreService.logUser(user);            
+        })
       } else {
         this.userCredential = res;
         this.router.navigate(['verification'])
