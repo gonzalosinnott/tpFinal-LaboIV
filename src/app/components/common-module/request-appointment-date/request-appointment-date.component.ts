@@ -25,6 +25,7 @@ export class RequestAppointmentDateComponent implements OnInit {
   userData: any;
   doctorName: any;
   patientName: any;
+  captcha: boolean = false;
 
   constructor(
     private toastr: ToastrService,
@@ -206,6 +207,11 @@ export class RequestAppointmentDateComponent implements OnInit {
       return;
     }
 
+    if(!this.captcha) {
+      this.toastr.error('CAPTCHA INCORRECTO', 'Error');
+      return;
+    }
+
     this.spinnerService.show();
     
     this.firestore.addAppointment(this.selectedDate, this.doctorName, this.patientName,  this.specialty)
@@ -214,8 +220,23 @@ export class RequestAppointmentDateComponent implements OnInit {
     .finally(() => {  location.reload();
                       this.spinnerService.hide();
                      
-     });  
+     });
+  }
 
+  disableCaptcha() {
+    if(this.captcha == false){
+      this.captcha = true;
+      console.log(this.captcha);
+      document.getElementById("captcha").hidden = true;
+    }
+    else{
+      this.captcha = false;
+      console.log(this.captcha);
+      document.getElementById("captcha").hidden = false;
+    }
+  }
 
+  captchaResult(result: any) {      
+    this.captcha = result;
   }
 }

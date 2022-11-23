@@ -1,6 +1,6 @@
-<div class="row align-items-center">
+<div class="row">
 
-    <div class="form-group col-md-5">
+    <div class="col">
         <div id="captcha" class="captcha"
              appCaptcha
              [requestCaptcha] = "generateCaptcha"
@@ -9,7 +9,7 @@
              (captchaResult)="captchaResultDirective($event)">{{captcha}}</div>
     </div>
 
-    <div class="form-group col-md-3">
+    <div class="col">
         <button class="btn rounded btn-primary" type="button" (click)="createCaptcha()"  >Cambiar</button>
     </div>  
 
