@@ -1,10 +1,18 @@
 <div class="row align-items-center">
-    <div class="form-group col-md-5">                               
-        <div id="captcha" class="captcha"></div>
+
+    <div class="form-group col-md-5">
+        <div id="captcha" class="captcha"
+             appCaptcha
+             [requestCaptcha] = "generateCaptcha"
+             [enteredCaptcha] = "captchaForDirective"
+             (captcha)="newCaptcha($event)"
+             (captchaResult)="captchaResultDirective($event)">{{captcha}}</div>
     </div>
-        <div class="form-group col-md-3">
-        <button class="btn rounded btn-primary" type="button" (click)="createCaptcha()">Cambiar</button>
-    </div>
+
+    <div class="form-group col-md-3">
+        <button class="btn rounded btn-primary" type="button" (click)="createCaptcha()"  >Cambiar</button>
+    </div>  
+
 </div>
 <br>
 <div class="input">
