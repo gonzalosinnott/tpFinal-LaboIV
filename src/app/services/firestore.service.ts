@@ -53,7 +53,7 @@ export class FirestoreService {
     return firebase
       .firestore()
       .collection('logs')
-      .orderBy('date', 'asc')
+      .orderBy('date', 'desc')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
