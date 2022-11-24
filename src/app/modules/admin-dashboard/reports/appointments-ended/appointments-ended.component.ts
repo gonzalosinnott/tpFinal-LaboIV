@@ -44,8 +44,8 @@ export class AppointmentsEndedComponent implements OnInit {
       console.log(Object.values(result));
       this.data.labels = Object.keys(result);
       this.data.series = Object.values(result);
+      new PieChart('#chart3', this.data, this.options);
     });
-    new PieChart('#chart3', this.data, this.options);
   }
 
   downloadData() {

@@ -49,9 +49,8 @@ export class AppointmentsSpecialtyComponent implements OnInit {
       const result =  this.specialties.reduce((json,val)=>({...json, [val]:(json[val] | 0) + 1}),{});
       this.data.labels = Object.keys(result);
       this.data.series.push(Object.values(result));
-    });
-
-    new BarChart('#chart1', this.data, this.options);
+      new BarChart('#chart1', this.data, this.options);
+    })      
   }
 
   downloadData() {

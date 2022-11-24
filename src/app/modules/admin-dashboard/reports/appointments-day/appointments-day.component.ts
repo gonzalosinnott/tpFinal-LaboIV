@@ -48,8 +48,8 @@ export class AppointmentsDayComponent implements OnInit {
       const result =  this.dates.reduce((json,val)=>({...json, [val]:(json[val] | 0) + 1}),{});
       this.data.labels = Object.keys(result);
       this.data.series.push(Object.values(result));
+      new LineChart('#chart4', this.data, this.options);
     });
-    new LineChart('#chart4', this.data, this.options);
   }
 
   downloadData() {

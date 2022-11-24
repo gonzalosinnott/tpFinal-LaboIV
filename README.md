@@ -52,9 +52,21 @@ Un administrador puede ver los turnos de la clinica por especialidad o especiali
 
 <img src="documents/07-verturnoadministrador-E.png" width="500"/><img src="documents/07-verturnoadministrador-F.png" width="500"/>
 
+###### USUARIOS (ADMINISTRADOR):
+
+En esta seccion el administrador ve a todos los usuarios del sistema  y puede acceder a un pdf con la informacion de los turnos que tomo o dio cada uno presionando la imagen de perfil del usuario.
+
+<img src="documents/administrador-usuarios.png" width="500"/>
+
+###### INFORMES (ADMINISTRADOR):
+
+En esta seccion el administrador ve adistintos reportes sobre las estadisticas de uso del sistema y puede descargar los mismos. 
+
+<img src="documents/administrador-informes.png" width="500"/>
+
 ###### PANEL DE CONTROL (PROFESIONAL):
 
-Un profesional aca puede administrar sus horarios de atencion y sus turnos. Del horaro de atencion puede elegir el dia y en que franja horaria desea atender. De sus turnos, los mismos los puede filtrar por especialidades que tenga o pacientes. Y de los mismos puede realizar las siguientes acciones: rechazar o cancelar un turno (dando un motivo de porque los cancela), aceptarlos y finalizarlos (al finalizarlos debe dar un resumen del turno y el diagnostico del mismo) A su vez puede  ver el detalle de todas estas acciones descriptas anteriormente.
+Un profesional aca puede administrar sus horarios de atencion y sus turnos. Del horario de atencion puede elegir el dia y en que franja horaria desea atender. De sus turnos, los mismos los puede filtrar por especialidades que tenga, pacientes que posean turnos con el o por un buscador de palabras clave. Y de los mismos puede realizar las siguientes acciones: rechazar o cancelar un turno (dando un motivo de porque los cancela), aceptarlos y finalizarlos (al finalizarlos debe dar un resumen del turno y el diagnostico del mismo) A su vez puede  ver el detalle de todas estas acciones descriptas anteriormente.
 
 <img src="documents/08-panelprofesional-A.png" width="500"/><img src="documents/08-panelprofesional-B.png" width="500"/>
 
@@ -64,9 +76,15 @@ Un profesional aca puede administrar sus horarios de atencion y sus turnos. Del 
 
 <img src="documents/08-panelprofesional-H.png" width="500"/>
 
+###### PACIENTES (PROFESIONAL):
+
+Un profesional aca puede ver los pacientes que ya haya atendido y ver la historia clinica de los mismos y descargar la misma en PDF.
+
+`<img src="documents/doctor-pacientes1.png" width="500"/><img src="documents/doctor-pacientes2.png" width="500"/>`
+
 ###### PANEL DE CONTROL (PACIENTE):
 
-Un paciente aca puede ver su perfil y sus turnos ya sacados. Estos turnos los filtra o por especialidad o por especialista y de los mismos ve los datos del turno y puede elegir cancelarlo si aun no fue aceptado o cancelado/rechazado por el profesional/administrador. A su ves de los turnos que ya se resolvieron por alguno de los dos caminos puede ver el detalle de los mismos. Y ademas puede completar una encuesta y puntuar al profesional
+Un paciente aca puede ver su perfil y sus turnos ya sacados. Estos turnos los filtra o por especialidad o por especialista y de los mismos ve los datos del turno y puede elegir cancelarlo si aun no fue aceptado o cancelado/rechazado por el profesional/administrador. A su ves de los turnos que ya se resolvieron por alguno de los dos caminos puede ver el detalle de los mismos. Y ademas puede completar una encuesta y puntuar al profesional. Tambien puede ver su historia clinica filtrando por especialidad y descargar la misma en PDF.
 
 <img src="documents/09-panelPaciente-A.png" width="500"/><img src="documents/09-panelPaciente-B.png" width="500"/>
 
@@ -74,7 +92,9 @@ Un paciente aca puede ver su perfil y sus turnos ya sacados. Estos turnos los fi
 
 <img src="documents/09-panelPaciente-E.png" width="500"/><img src="documents/09-panelPaciente-F.png" width="500"/>
 
-<img src="documents/09-panelPaciente-G.png" width="500"/><img src="documents/09-panelPaciente-H.png" width="500"/>
+`<img src="documents/09-panelPaciente-G.png" width="500"/><img src="documents/09-panelPaciente-H.png" width="500"/>`
+
+`<img src="documents/paciente-historia.png" width="500"/>`
 
 ###### SACAR TURNO (PACIENTE):
 
@@ -92,7 +112,12 @@ Se cuenta con una pagina de error 404 para direcciones inexistentes y guards par
 
 Requerimientos por sprint y su estado
 
-<img src="documents/sprint1.png" width="800"/>
+`<img src="documents/requerimientoSprints.png" width="800"/>`
 
-<img src="documents/sprint2.png" width="800"/>
+<img src="documents/09-panelPaciente-H.png" width="500"/>
 
+
+<img src="documents/09-panelPaciente-H.png" width="500"/>
+
+
+<img src="documents/09-panelPaciente-H.png" width="500"/>
