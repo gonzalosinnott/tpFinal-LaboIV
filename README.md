@@ -80,7 +80,7 @@ Un profesional aca puede administrar sus horarios de atencion y sus turnos. Del 
 
 Un profesional aca puede ver los pacientes que ya haya atendido y ver la historia clinica de los mismos y descargar la misma en PDF.
 
-`<img src="documents/doctor-pacientes1.png" width="500"/><img src="documents/doctor-pacientes2.png" width="500"/>`
+<img src="documents/doctor-pacientes1.png" width="500"/><img src="documents/doctor-pacientes2.png" width="500"/>
 
 ###### PANEL DE CONTROL (PACIENTE):
 
@@ -92,9 +92,9 @@ Un paciente aca puede ver su perfil y sus turnos ya sacados. Estos turnos los fi
 
 <img src="documents/09-panelPaciente-E.png" width="500"/><img src="documents/09-panelPaciente-F.png" width="500"/>
 
-`<img src="documents/09-panelPaciente-G.png" width="500"/><img src="documents/09-panelPaciente-H.png" width="500"/>`
+<img src="documents/09-panelPaciente-G.png" width="500"/><img src="documents/09-panelPaciente-H.png" width="500"/>
 
-`<img src="documents/paciente-historia.png" width="500"/>`
+<img src="documents/paciente-historia.png" width="500"/>
 
 ###### SACAR TURNO (PACIENTE):
 
@@ -112,12 +112,4 @@ Se cuenta con una pagina de error 404 para direcciones inexistentes y guards par
 
 Requerimientos por sprint y su estado
 
-`<img src="documents/requerimientoSprints.png" width="800"/>`
-
-<img src="documents/09-panelPaciente-H.png" width="500"/>
-
-
-<img src="documents/09-panelPaciente-H.png" width="500"/>
-
-
-<img src="documents/09-panelPaciente-H.png" width="500"/>
+<img src="documents/requerimientosSprints.png" width="800"/>
