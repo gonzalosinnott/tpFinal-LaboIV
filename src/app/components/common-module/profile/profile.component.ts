@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
   userData:any;
   day: string;
   days: any[] = [];
+  specialty: any;
 
   daysData: Array<any> = [
     { name: 'Lunes', value: 'monday' },
@@ -118,18 +119,12 @@ export class ProfileComponent implements OnInit {
   }
 
   loadMedicalHistory(){
-
     this.firestoreService.getAppointmentsByPatient(this.userData.displayName)
     .then((appointments: any) => {
-      console.log(appointments);
       this.patientAppointments = appointments;
     })
     .then(() => {
-      console.log(this.userData.displayName);
-      
-    })
-    .then(() => {
-      this.patientAppointments.forEach(element => {
+        this.patientAppointments.forEach(element => {
         this.profileSpecialtiesList.push(element.specialty);        
       });
     })
@@ -141,12 +136,13 @@ export class ProfileComponent implements OnInit {
 
   createMedicalHistoryBySpecialty(specialty: any) {
 
-    let specialtyFormated = new SpecialtiesPipe().transform(specialty);
+    console.log(specialty);
+    this.specialty = new SpecialtiesPipe().transform(specialty);
 
     
-    this.firestoreService.getMedicalHistoryBySpecialtyAndPatient(specialty, this.userData.displayName)
+    this.firestoreService.getMedicalHistoryBySpecialtyAndPatient(specialty, this.userData.displayName, "closed")
         .then((medicalHistory: any) => {
-        
+          console.log(medicalHistory);
           this.patientAppointmentsBySpecialty = medicalHistory;
         })
         .then(() => {
@@ -154,9 +150,13 @@ export class ProfileComponent implements OnInit {
               .then((medicalHistory: any) => {
                 this.patientMedicalHistory = medicalHistory;
               })    
-          .then(() => {
+          .then(() => {          
+        });
+      });
+    }
 
-          var today  = new Date();
+    download() {
+      var today  = new Date();
           var line = 20;
           today.toLocaleDateString("es-ES")
           let PDF = new jsPDF('p', 'mm', 'a4');
@@ -177,7 +177,7 @@ export class ProfileComponent implements OnInit {
           (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
           PDF.text(`* Presión: ${this.patientMedicalHistory.pressure} (media)`,15,line);
           (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
-          PDF.text(`- Historial de Atencion Especialidad: ${specialtyFormated}`,10,line);      
+          PDF.text(`- Historial de Atencion Especialidad: ${this.specialty }`,10,line);      
           (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
           this.patientAppointmentsBySpecialty.forEach(element => {
             PDF.text(`-----------------------------------------------------`,15,line);
@@ -198,9 +198,7 @@ export class ProfileComponent implements OnInit {
             (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
           }); 
 
-          PDF.save('historia-clínica'+ '-' + this.patientMedicalHistory.patient + '-' + specialtyFormated +'.pdf');
-        });
-      });
+          PDF.save('historia-clínica'+ '-' + this.patientMedicalHistory.patient + '-' + this.specialty  +'.pdf');
     }
           
 

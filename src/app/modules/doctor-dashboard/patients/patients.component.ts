@@ -90,13 +90,13 @@ export class PatientsComponent implements OnInit {
         index) => arr.indexOf(item) === index);
   }
 
-  download(patient){
+  openMedicalHistory(patient){
     this.firestore
     .getMedicalHistoryByPatient(      
       patient
     )
     .then((data) => {
-      this.patientMedicalHistory = data[0]; 
+      this.patientMedicalHistory = data; 
       console.log(this.patientMedicalHistory);        
     })
     .then(() => {
@@ -109,9 +109,12 @@ export class PatientsComponent implements OnInit {
         this.patientAppointments = data; 
       })
       .then(() => {
+      })      
+    })       
+  }
 
+  download() {
 
-      
       var today  = new Date();
       var line = 20;
       today.toLocaleDateString("es-ES")
@@ -155,9 +158,7 @@ export class PatientsComponent implements OnInit {
         (line > pageHeight) ? (PDF.addPage(), line = 20) : line += 10;
       });             
          
-      PDF.save('historia-clínica'+ '-' + this.patientMedicalHistory.patient + '.pdf');      
-      })
-    })
-  }   
+      PDF.save('historia-clínica'+ '-' + this.patientMedicalHistory.patient + '.pdf');    
+  }
 
 }

@@ -7,6 +7,11 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#specialistModal">
         POR PACIENTE
     </button>
+    <input class="form-control rounded-25 py-2" type="search" placeholder="Buscar..." [(ngModel)]="searchValue" >
+    <button type="button" class="btn btn-primary search" style="width:10%;" (click)="search()">
+        <i class="bi bi-search"></i>
+    </button>
+    
 </div>
 <hr>
 <div *ngIf="appointments?.length > 0; else elseBlock">

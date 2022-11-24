@@ -7,7 +7,6 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Auth } from '@angular/fire/auth';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-request-appointment-date',
@@ -74,18 +73,22 @@ export class RequestAppointmentDateComponent implements OnInit {
 
     this.appointments = [];
     this.spinnerService.show();
-    this.firestore.getDoctorAvailableHours(this.doctor)
-    .then((data) => { this.doctorAvailability = data; })
-    .then(() => { this.generateDaysData(this.doctorAvailability); })
-    .then(() => { this.checkDoctorAvailability(this.doctor) })
-    .then(() => { })
-    .then(() => { this.checkPatientAvailability(this.patient) })
-    .then(() => { this.firestore.getUserData(this.doctor).then((user: any) => {
-                      this.doctorName= user.displayName;});
+    this.firestore.getUserData(this.doctor).then((user: any) => {
+      this.doctorName= user.displayName;
     })
-    .then(() => { this.firestore.getUserData(this.patient).then((user: any) => {
-                      this.patientName= user.displayName;});
-    })
+    .then(() => {
+      this.firestore.getUserData(this.patient).then((user: any) => {
+        this.patientName= user.displayName;
+      })
+      .then(() => {
+        this.firestore.getDoctorAvailableHours(this.doctor)
+        .then((data) => { this.doctorAvailability = data; })
+        .then(() => { this.generateDaysData(this.doctorAvailability); })       
+        .then(() => { this.checkDoctorAvailability(this.doctorName) })
+        .then(() => { this.checkPatientAvailability(this.patientName)
+        })
+      })
+    })   
     .finally(() => { this.spinnerService.hide();});
   }
 
@@ -174,6 +177,7 @@ export class RequestAppointmentDateComponent implements OnInit {
     this.firestore.searchDoctorAvailability(doctor)
     .then((data) => { 
       const newArray = this.appointments.filter((element) => {
+        console.log(element);
         return element !== data.date;
       });
       this.appointments = newArray; 
@@ -184,6 +188,7 @@ export class RequestAppointmentDateComponent implements OnInit {
     this.firestore.searchPatientAvailability(patient)
     .then((data) => { 
       const newArray = this.appointments.filter((element) => {
+        console.log(element);
         return element !== data.date;
       });
       this.appointments = newArray; 

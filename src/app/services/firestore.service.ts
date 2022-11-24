@@ -248,12 +248,12 @@ export class FirestoreService {
       });
   }
 
-  searchDoctorAvailability(uid: any) {
+  searchDoctorAvailability(displayName: any) {
     var data;
     return firebase
       .firestore()
       .collection('appointments')
-      .where('doctor', '==', uid)
+      .where('doctor', '==', displayName)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -266,12 +266,12 @@ export class FirestoreService {
       });
   }
 
-  searchPatientAvailability(uid: any) {
+  searchPatientAvailability(displayName: any) {
     var data;
     return firebase
       .firestore()
       .collection('appointments')
-      .where('patient', '==', uid)
+      .where('patient', '==', displayName)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -507,14 +507,14 @@ export class FirestoreService {
       });
   }
 
-  getMedicalHistoryBySpecialtyAndPatient(specialty: any, patient: any) {
+  getMedicalHistoryBySpecialtyAndPatient(specialty: any, patient: any, status: any) {
     const data: any[] = [];
     return firebase
       .firestore()
       .collection('appointments')
       .where('specialty', '==', specialty)
       .where('patient', '==', patient)
-      .where('status', '==', 'closed')
+      .where('status', '==', status)
       .orderBy('date', 'asc')
       .get()
       .then((querySnapshot) => {

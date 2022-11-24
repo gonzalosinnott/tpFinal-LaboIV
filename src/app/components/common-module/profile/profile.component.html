@@ -134,7 +134,7 @@
 </datalist>
 
 
-<div class="modal fade" id="medicalHistoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="medicalHistoryModal" tabindex="-1" aria-labelledby="medicalHistoryModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -142,9 +142,10 @@
                 <hr>
                 <div *ngIf="profileSpecialtiesList?.length > 0; else elseBlock">
                     <div *ngFor="let specialtyMedicalHistory  of profileSpecialtiesList; let i=index">
-                        <input type="radio" name="specialty" class="btn-check" id={{specialtyMedicalHistory}} autocomplete="off"
+                        <input type="checkbox" name="specialty" class="btn-check" id={{specialtyMedicalHistory}} autocomplete="off"
                             [value]="specialtyMedicalHistory" (click)="createMedicalHistoryBySpecialty(specialtyMedicalHistory)"
-                            data-bs-dismiss="modal" />
+                            data-bs-toggle="modal"
+                            data-bs-target="#medicalHistoryDetailModal" />
 
                         <label class="btn btn-outline-primary" for={{specialtyMedicalHistory}}>
                             <div class="d-flex align-items-center justify-content-center">
@@ -161,6 +162,54 @@
                 </ng-template>
             </div>
             <div class="modal-footer">                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="medicalHistoryDetailModal" tabindex="-1" aria-labelledby="medicalHistoryModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div *ngIf="patientMedicalHistory != undefined ; else elseBlockMedicalHistory">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>HISTORIA CLINICA PACIENTE {{patientMedicalHistory.patient}}</h3>
+                        <a class="btn btn-primary" (click)="download()">DESCARGAR</a>
+                    </div>
+                    <hr>
+                    <div>
+                        <h4>DATOS ULTIMO CONTROL</h4>
+                        <ul>
+                            <li>ALTURA: {{patientMedicalHistory.height}} cm..</li>
+                            <li>PESO: {{patientMedicalHistory.weight}} kg.</li>
+                            <li>TEMPERATURA: {{patientMedicalHistory.temp}}°C</li>
+                            <li>PRESION: {{patientMedicalHistory.pressure}} (media)</li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <p>Historial de Atencion de la especialidad {{specialty}}</p>
+                    <div *ngFor="let appointment  of patientAppointmentsBySpecialty; let i=index">
+                        <hr>
+                        <ul>
+                            <li>FECHA: {{appointment.date}}</li>
+                            <li>ESPECIALISTA: {{appointment.doctor}}</li>
+                            <li>DIAGNOSTICO: {{appointment.diagnosis}}</li>
+                            <li>Observaciones: </li>
+                                <ul>
+                                    <li *ngFor="let info of appointment.observations | keyvalue">
+                                        {{info.key}}: {{info.value}}
+                                    </li>
+                                </ul>
+                            <li>Comentario de {{appointment.appointmentInfo}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <ng-template #elseBlockMedicalHistory>
+                    <label class="btn btn-outline-danger">NO EXISTEN HSITORIA CLINICA PARA LA ESPECIALIDAD SELECCIONADA</label>
+                </ng-template>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>

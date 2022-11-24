@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AppointmentStatusPipe } from 'src/app/pipes/appointmentStatus.pipe';
+import { SpecialtiesPipe } from 'src/app/pipes/specialties.pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
@@ -36,6 +38,9 @@ export class MyAppointmentsComponent implements OnInit {
   appointmentAditionalInfo: any;
   appointmentRate: number = 0;
   doctorClarity: string = '';
+
+  allAppointments: any;
+  searchValue: string = '';
   
   form: FormGroup;
   public cancelReason = new FormControl('');
@@ -68,6 +73,12 @@ export class MyAppointmentsComponent implements OnInit {
     .then(() => {
       this.getSpecialists();
       this.getSpecialties();
+    })
+    .then(() => {
+      this.firestore.getAppointmentsByPatient(this.userData.displayName)
+      .then((data) => {
+        this.allAppointments = data;
+      });
     });
   }
 
@@ -166,7 +177,6 @@ export class MyAppointmentsComponent implements OnInit {
   selectSpecialty(e: any) {
     this.specialtySelected = true;
     this.doctorSelected = false;
-    console.log(e.target.value);
     this.selectedSpecialty = e.target.value;
     this.getAppointmentsBySpecialty();
   }
@@ -309,5 +319,77 @@ export class MyAppointmentsComponent implements OnInit {
   clarity(e: any) {
     console.log(e.target.value);
     this.doctorClarity = e.target.value;
+  }
+
+  search() {
+
+    this.appointments = [];
+    let appointmentInfo = ''; 
+    let date = '';
+    let diagnosis = '';
+    let doctor = '';
+    let patient = '';
+    let status = '';
+    let statusFormated = '';
+    let specialty = '';
+    let specialtyFormated = '';
+    let observations = '';
+    let observationsFormated = ''; 
+
+    if(this.searchValue == ''){
+      this.toastr.error('Ingrese un criterio de busqueda');
+      return;
+    }
+        
+    this.allAppointments.forEach(element => {
+
+      if(element.appointmentInfo!=undefined) {
+        appointmentInfo = element.appointmentInfo.toString().toLowerCase();
+      }
+
+      if (element.date!=undefined) {
+        date = element.date.toString().toLowerCase();
+      }
+
+      if (element.diagnosis!=undefined) {
+        diagnosis = element.diagnosis.toString().toLowerCase();
+      }
+      
+      if (element.doctor!=undefined) {
+        doctor = element.doctor.toString().toLowerCase();
+      }
+
+      if (element.patient!=undefined) {
+        patient = element.patient.toString().toLowerCase();
+      }
+
+      if (element.specialty!=undefined) {
+        specialty = element.specialty;
+        specialtyFormated = new SpecialtiesPipe().transform(specialty).toString().toLowerCase();
+      }
+
+      if (element.status!=undefined) {
+        status = element.status;
+        statusFormated = new AppointmentStatusPipe().transform(status).toString().toLowerCase();
+      }
+
+      if (element.observations!=undefined) {
+        observations = element.observations;
+        observationsFormated = JSON.stringify(observations).toString().toLowerCase();
+      }
+
+      if(appointmentInfo.includes(this.searchValue.toLowerCase()) ||
+         date.includes(this.searchValue.toLowerCase()) ||
+         diagnosis.includes(this.searchValue.toLowerCase()) ||
+         doctor.includes(this.searchValue.toLowerCase()) ||
+         patient.includes(this.searchValue.toLowerCase()) ||
+         specialtyFormated.includes(this.searchValue.toLowerCase()) ||
+         statusFormated.includes(this.searchValue.toLowerCase()) ||
+         observationsFormated.includes(this.searchValue.toLowerCase())){
+        this.appointments.push(element);
+      }     
+    });
+
+    this.searchValue = '';  
   }
 }

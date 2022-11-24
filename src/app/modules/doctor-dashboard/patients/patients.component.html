@@ -19,7 +19,7 @@
                                     <li >{{patient.appointmentDates[2]}}</li>
                                 </ul>
                                 <br>
-                                <a class="btn btn-primary" (click)="download(patient.displayName)">DESCARGAR HISTORIA CLINICA</a>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#medicalHistoryModal" (click)="openMedicalHistory(patient.displayName)">HISTORIA CLINICA</button>
                             </div>
                         </div>
 
@@ -30,7 +30,53 @@
             <label class="btn btn-outline-danger">NO EXISTEN PACIENTES CON TURNOS</label>
         </ng-template>
     </div>
+</div>
 
 
-
+<div class="modal fade" id="medicalHistoryModal" tabindex="-1" aria-labelledby="medicalHistoryModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div *ngIf="patientMedicalHistory != undefined ; else elseBlockMedicalHistory">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>HISTORIA CLINICA PACIENTE {{patientMedicalHistory.patient}}</h3>
+                        <a class="btn btn-primary" (click)="download()">DESCARGAR</a>
+                    </div>
+                    <hr>
+                    <div>
+                        <h4>DATOS ULTIMO CONTROL</h4>
+                        <ul>
+                            <li>ALTURA: {{patientMedicalHistory.height}} cm..</li>
+                            <li>PESO: {{patientMedicalHistory.weight}} kg.</li>
+                            <li>TEMPERATURA: {{patientMedicalHistory.temp}}°C</li>
+                            <li>PRESION: {{patientMedicalHistory.pressure}} (media)</li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <p>Historial de Atencion con el especialista {{userData.displayName}}</p>
+                    <div *ngFor="let appointment  of patientAppointments; let i=index">
+                        <hr>
+                        <ul>
+                            <li>FECHA: {{appointment.date}}</li>
+                            <li>ESPECIALIDAD: {{appointment.specialty | specialties}}</li>
+                            <li>DIAGNOSTICO: {{appointment.diagnosis}}</li>
+                            <li>Observaciones: </li>
+                                <ul>
+                                    <li *ngFor="let info of appointment.observations | keyvalue">
+                                        {{info.key}}: {{info.value}}
+                                    </li>
+                                </ul>
+                            <li>Comentario de {{appointment.appointmentInfo}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <ng-template #elseBlockMedicalHistory>
+                    <label class="btn btn-outline-danger">NO EXISTEN PACIENTES PARA LAS QUE USTED POSEA TURNO</label>
+                </ng-template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
 </div>
